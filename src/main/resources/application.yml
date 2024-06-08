@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: javaWebOdev
+  datasource:
+    url: jdbc:mysql://localhost:3306/odevJava
+    username: root
+    password: hSelMan%231?!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      open-in-view: falsed
+  main:
+    allow-circular-references: true
+server:
+  port: 8080
+
