@@ -1,17 +1,18 @@
+server:
+  port: 9091
+
 spring:
   application:
-    name: javaWebOdev
+    name: second-web
   datasource:
-    url: jdbc:mysql://localhost:3306/odevJava
+    url: jdbc:mysql://localhost:3306/javaOdev2
     username: root
     password: hSelMan%231?!
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
-      open-in-view: falsed
-  main:
-    allow-circular-references: true
-server:
-  port: 8080
-
+    show-sql: true  # SQL sorgularını görmek için eklenebilir
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect  # Dialect ekleyin
