@@ -41,23 +41,24 @@ public class UserController {
     }
 
     private UserResponse toResponse(UserDto dto) {
-        UserResponse response = new UserResponse();
-        response.setUserName(dto.getUserName());
-        response.setFullName(dto.getFullName());
-        response.setBirthDate(dto.getBirthDate());
-        response.setBirthPlace(dto.getBirthPlace());
-        response.setTelNo(dto.getTelNo());
-        response.setTckn(dto.getTckn());
-        return response;
+        return  UserResponse.builder()
+                .id(dto.getId())
+                .userName(dto.getUserName())
+                .fullName(dto.getFullName())
+                .telNo(dto.getTelNo())
+                .birthDate(dto.getBirthDate())
+                .birthPlace(dto.getBirthPlace())
+                .tckn(dto.getTckn())
+                .build();
     }
     private UserDto toDto(UserRequest request) {
-        UserDto dto = new UserDto();
-        dto.setUserName(request.getUserName());
-        dto.setFullName(request.getFullName());
-        dto.setBirthDate(request.getBirthDate());
-        dto.setBirthPlace(request.getBirthPlace());
-        dto.setTelNo(request.getTelNo());
-        dto.setTckn(request.getTckn());
-        return dto;
+        return UserDto.builder()
+                .userName(request.getUserName())
+                .fullName(request.getFullName())
+                .birthDate(request.getBirthDate())
+                .birthPlace(request.getBirthPlace())
+                .telNo(request.getTelNo())
+                .telNo(request.getTelNo())
+                .build();
     }
 }

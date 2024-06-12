@@ -12,7 +12,4 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true  # SQL sorgularını görmek için eklenebilir
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect  # Dialect ekleyin
+

@@ -25,17 +25,17 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     public CategoryDto get(String id) {
-        Category category = repository.findCategoryByCategoryId(Integer.parseInt(id));
+        Category category = repository.findCategoryByCategoryId(Long.parseLong(id));
         return toDto(category);
     }
 
     public CategoryDto delete(String id) {
-        Category category = repository.deleteCategoryById(Integer.parseInt(id));
+        Category category = repository.deleteCategoryById(Long.parseLong(id));
         return toDto(category);
     }
 
     public CategoryDto update(String id, CategoryDto dto) {
-        Category existCategory =repository.findCategoryByCategoryId(Integer.parseInt(id));
+        Category existCategory =repository.findCategoryByCategoryId(Long.parseLong(id));
         if(existCategory != null){
 
         }

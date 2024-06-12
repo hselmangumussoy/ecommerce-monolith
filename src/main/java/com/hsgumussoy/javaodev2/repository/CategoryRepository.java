@@ -5,8 +5,8 @@ import com.hsgumussoy.javaodev2.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryRepository extends JpaRepository<Category,Long> {
-    Category findCategoryByCategoryId(int id);
+    Category findCategoryByCategoryId(Long id);
 
-    Category deleteCategoryById(int id);
+    Category deleteCategoryById(Long id);
 
 }

@@ -1,9 +1,18 @@
 package com.hsgumussoy.javaodev2.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category {
 
     @Id
@@ -11,8 +20,8 @@ public class Category {
     private Long id;
     private String name;
 
+    //@JoinColumn(name = "product_id")-> joinColumn sadece ManyToOne ve OneToOne da kullanılır
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
     private List<Product> products;
 
     //mappedBy = "category" ifadesi, Product sınıfındaki category alanının,
@@ -23,36 +32,5 @@ public class Category {
     // veritabanında gereksiz yere ekstra bir dış anahtar sütunu oluşturmadan ilişkileri yönetmeye yardımcı olur.
 
 
-    public Category() {
-    }
 
-    public Category(Long id, String name, List<Product> products) {
-        this.id = id;
-        this.name = name;
-        this.products = products;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }

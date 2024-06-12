@@ -19,17 +19,17 @@ public class UserServiceImpl implements UserService {
 
 
     public UserDto get(String id) {
-        User user = repository.findUserByUserId(Integer.parseInt(id));
+        User user = repository.findUserByUserId(Long.parseLong(id));
         return toDto(user);
     }
 
     public UserDto delete(String id) {
-        User user = repository.deleteUserById(Integer.parseInt(id));
+        User user = repository.deleteUserById(Long.parseLong(id));
         return toDto(user);
     }
 
     public UserDto update(String id, UserDto dto) {
-        User existUser =repository.findUserByUserId(Integer.parseInt(id));
+        User existUser =repository.findUserByUserId(Long.parseLong(id));
         if(existUser != null){
             existUser.setId(dto.getId());
             existUser.setUserName(dto.getUserName());

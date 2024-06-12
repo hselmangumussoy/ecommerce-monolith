@@ -46,41 +46,36 @@ public class CategoryController {
 
 
     private CategoryResponse toResponse(CategoryDto dto) {
-        CategoryResponse response = new CategoryResponse();
-        response.setId(dto.getId());
-        response.setName(dto.getName());
 
         List<ProductResponse> productResponses = dto.getProductsList().stream()
-                .map(productDto -> {
-                    ProductResponse productResponse = new ProductResponse();
-                    productResponse.setId(productDto.getId());
-                    productResponse.setName(productDto.getName());
-                    productResponse.setCategoryId(productDto.getCategoryId());
-                    return productResponse;
-                })
+                .map(productDto -> ProductResponse.builder()
+                                .id(productDto.getId())
+                                .name(productDto.getName())
+                                .categoryId(productDto.getCategoryId())
+                                .build())
                 .collect(Collectors.toList());
 
-        response.setProductList(productResponses);
-
-        return response;
+        return CategoryResponse.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .productList(productResponses)
+                .build();
     }
 
     private CategoryDto toDto(CategoryRequest request) {
-        CategoryDto dto = new CategoryDto();
-        dto.setId(request.getId());
-        dto.setName(request.getName());
 
         List<ProductDto> productDtos = request.getProductList().stream()
-                .map(productRequest -> {
-                    ProductDto productDto = new ProductDto();
-                    productDto.setId(productRequest.getId());
-                    productDto.setName(productRequest.getName());
-                    productDto.setCategoryId(productDto.getCategoryId());
-                    return productDto;
-                })
+                .map(productRequest -> ProductDto.builder()
+                            .name(productRequest.getName())
+                            .categoryId(productRequest.getCategoryId())
+                            .build())
                 .collect(Collectors.toList());
-        dto.setProductsList(productDtos);
 
-        return dto;
+
+        return CategoryDto.builder()
+                .name(request.getName())
+                .productsList(productDtos)
+                .build();
+
     }
 }

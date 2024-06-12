@@ -7,43 +7,36 @@ import com.hsgumussoy.javaodev2.service.BasketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 @Service
 public class BasketServiceImpl implements BasketService {
+
     @Autowired
     private BasketRepository repository;
 
-    public BasketDto save(BasketDto dto){
-
+    public BasketDto save(BasketDto dto) {
         return toDto(repository.save(toEntity(dto)));
     }
 
     public BasketDto get(String id) {
-        return toDto(repository.findUserByBasketId(Integer.parseInt(id)));
+        return toDto(repository.findByBasketId(Long.parseLong(id)));
     }
 
-    public BasketDto delete(String id) {
-        return toDto(repository.deleteBasketById(Integer.parseInt(id)));
+    public void delete(String id) {
+        repository.deleteById(Long.parseLong(id));
     }
 
     public BasketDto update(String id, BasketDto dto) {
-        Basket existBasket =repository.findUserByBasketId(Integer.parseInt(id));
-        if(existBasket != null){
-            existBasket.setUser(existBasket.getUser());
+        Basket existBasket = repository.findByBasketId(Long.parseLong(id));
+        if (existBasket != null) {
+            existBasket.setUser(dto.getUser());
+        } else {
+            return null;
         }
-        else {
-            return  null;
-
-        }
-
         return toDto(repository.save(existBasket));
     }
 
-    /*public List<Basket> getAll() {
-        return repository.findAll();
-    }*/
     private Basket toEntity(BasketDto dto) {
-        Basket basket =new Basket();
+        Basket basket = new Basket();
         basket.setId(dto.getId());
         basket.setUser(dto.getUser());
         return basket;
