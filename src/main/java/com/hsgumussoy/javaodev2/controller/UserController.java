@@ -33,8 +33,8 @@ public class UserController {
     }*/
 
     @DeleteMapping("/{id}")
-    public UserResponse delete(@PathVariable(name= "id") String id){
-        return toResponse( service.delete(id));
+    public void delete(@PathVariable(name= "id") String id){
+        service.delete(id);
     }
     @PutMapping("/{id}")
     public UserResponse update(@PathVariable(name= "id") String id, @RequestBody UserRequest request){
@@ -59,7 +59,7 @@ public class UserController {
                 .birthDate(request.getBirthDate())
                 .birthPlace(request.getBirthPlace())
                 .telNo(request.getTelNo())
-                .telNo(request.getTelNo())
+                .tckn(request.getTckn())
                 .build();
     }
 }

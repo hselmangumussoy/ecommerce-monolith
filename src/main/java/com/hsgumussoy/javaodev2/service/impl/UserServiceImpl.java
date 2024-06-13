@@ -4,6 +4,7 @@ import com.hsgumussoy.javaodev2.dto.UserDto;
 import com.hsgumussoy.javaodev2.repository.UserRepository;
 import com.hsgumussoy.javaodev2.entity.User;
 import com.hsgumussoy.javaodev2.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +24,10 @@ public class UserServiceImpl implements UserService {
         return toDto(user);
     }
 
-    public UserDto delete(String id) {
-        User user = repository.deleteUserById(Long.parseLong(id));
-        return toDto(user);
+
+    public void delete(String id) {
+        repository.deleteById(Long.parseLong(id));
+        System.out.println("Başarılı bir şekilde silindi...");//BURASI POSTMAN DE NEDEN GÖZÜKMÜYOR
     }
 
     public UserDto update(String id, UserDto dto) {
@@ -50,6 +52,7 @@ public class UserServiceImpl implements UserService {
     }*/
     private User toEntity(UserDto dto) {
         User user = new User();
+        user.setId(user.getId());
         user.setUserName(dto.getUserName());
         user.setFullName(dto.getFullName());
         user.setBirthDate(dto.getBirthDate());
@@ -61,6 +64,7 @@ public class UserServiceImpl implements UserService {
     }
     private UserDto toDto(User user) {
         UserDto dto = new UserDto();
+        dto.setId(user.getId());
         dto.setUserName(user.getUserName());
         dto.setFullName(user.getFullName());
         dto.setBirthDate(user.getBirthDate());

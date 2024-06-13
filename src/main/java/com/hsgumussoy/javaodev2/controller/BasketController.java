@@ -1,6 +1,7 @@
 package com.hsgumussoy.javaodev2.controller;
 
 import com.hsgumussoy.javaodev2.dto.BasketDto;
+import com.hsgumussoy.javaodev2.dto.UserDto;
 import com.hsgumussoy.javaodev2.request.BasketRequest;
 import com.hsgumussoy.javaodev2.response.BasketResponse;
 import com.hsgumussoy.javaodev2.service.BasketService;
@@ -45,9 +46,13 @@ public class BasketController {
 
     private BasketDto toDto(BasketRequest request) {
         BasketDto dto = new BasketDto();
-        // Kullanıcıyı User tipi ile ayarlamanız gerekiyor
-        //dto.setUser(request.getUserId());
-        dto.getUser().setId(request.getUserId());
+        UserDto userDto = new UserDto();
+
+        dto.setId(request.getUserId());
+
+        userDto.setId(request.getUserId());
+        dto.setUser(userDto);
+
         return dto;
     }
 }

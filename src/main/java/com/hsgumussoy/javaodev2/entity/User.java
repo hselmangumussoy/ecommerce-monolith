@@ -20,13 +20,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private  String userName;
-    private String fullName;
-    private String password;
-    private String tckn;
-    private String birthPlace;
-    private Date birthDate;
-    private String telNo;
+    private String  fullName;
+    private String  password;
+    private String  tckn;
+    private String  birthPlace;
+    private Date    birthDate;
+    private String  telNo;
 
 
 }
