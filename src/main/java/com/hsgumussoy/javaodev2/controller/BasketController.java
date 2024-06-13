@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/baskets")
 public class BasketController {
@@ -24,6 +27,16 @@ public class BasketController {
     @GetMapping("/{id}")
     public BasketResponse get(@PathVariable(name = "id") String id) {
         return toResponse(service.get(id));
+    }
+
+    @GetMapping
+    public List<BasketResponse> getAll(){
+        List<BasketDto> basketDtos = service.getAll();
+        List<BasketResponse> basketResponses = basketDtos.stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+
+        return basketResponses;
     }
 
     @DeleteMapping("/{id}")
