@@ -10,7 +10,9 @@ import com.hsgumussoy.javaodev2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class BasketServiceImpl implements BasketService {
@@ -21,20 +23,25 @@ public class BasketServiceImpl implements BasketService {
     @Autowired
     UserService userService;
 
+    @Override
     public BasketDto save(BasketDto dto) {
         return toDto(repository.save(toEntity(dto)));
     }
 
+    @Override
     public BasketDto get(String id) {
         return toDto(finBasketByUserId(id));
     }//basketin içindeki user ın id sine göre getirecek
+
     private Basket finBasketByUserId(String id) {
         return repository.findBasketByUser_Id(Long.parseLong(id));
     }
+    @Override
     public void delete(String id) {
         repository.deleteById(Long.parseLong(id));
     }
 
+    @Override
     public BasketDto update(String id,BasketDto dto) {
         Basket existBasket = repository.findById(Long.parseLong(id))
                 .orElseThrow(() -> new NoSuchElementException("No basket found with id: " + id));
@@ -46,6 +53,18 @@ public class BasketServiceImpl implements BasketService {
 
         return toDto(existBasket);
     }
+
+    @Override
+    public List<BasketDto> getAll() {
+        List<Basket> baskets = repository.findAll();
+
+        //her bir basket entity sini dto ya çevirir ve döndürür
+        return baskets.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+
+    }
+
     /*public static class UserMapper {
         public static User toEntity(UserDto userDto) {
             if (userDto == null) {

@@ -8,33 +8,40 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository repository;
 
+    @Override
     public UserDto save(UserDto dto) {
         return  toDto(repository.save(toEntity(dto)));
     }
 
-
-
+    @Override
     public UserDto get(String id) {
         User user = repository.findUserById(Long.parseLong(id));
         return toDto(user);
     }
 
 
+    @Override
     public void delete(String id) {
         repository.deleteById(Long.parseLong(id));
-        System.out.println("Başarılı bir şekilde silindi...");//BURASI POSTMAN DE NEDEN GÖZÜKMÜYOR
     }
 
+    @Override
     public UserDto update(String id, UserDto dto) {
         try{
             User existUser =repository.findUserById(Long.parseLong(id));
 
-            existUser.setId(dto.getId());
+            if(existUser == null){
+                throw new Exception("Kullanıcı Bulunamadı");
+            }
+
             existUser.setUserName(dto.getUserName());
             existUser.setFullName(dto.getFullName());
             existUser.setPassword(dto.getPassword());
@@ -44,17 +51,25 @@ public class UserServiceImpl implements UserService {
             existUser.setBirthPlace(dto.getBirthPlace());
 
             return toDto(repository.save(existUser));
+        }catch (NumberFormatException |NullPointerException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("geçersiz id veya veri");
         }catch (Exception e){
             e.printStackTrace();
-            return null;
+            throw new RuntimeException("Kullanıcı güncellenemedi");
         }
 
 
     }
 
-   /* public List<UserDto> getAll() {
-        return repository.findAll();
-    }*/
+    @Override
+    public List<UserDto> getAll() {
+        List<User> users = repository.findAll();
+        return users.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
     private User toEntity(UserDto dto) {
         User user = new User();
         user.setId(user.getId());
