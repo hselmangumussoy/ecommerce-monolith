@@ -31,20 +31,25 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserDto update(String id, UserDto dto) {
-        User existUser =repository.findUserById(Long.parseLong(id));
-        if(existUser != null){
+        try{
+            User existUser =repository.findUserById(Long.parseLong(id));
+
             existUser.setId(dto.getId());
             existUser.setUserName(dto.getUserName());
             existUser.setFullName(dto.getFullName());
+            existUser.setPassword(dto.getPassword());
             existUser.setTelNo(dto.getTelNo());
             existUser.setTckn(dto.getTckn());
             existUser.setBirthDate(dto.getBirthDate());
             existUser.setBirthPlace(dto.getBirthPlace());
+
+            return toDto(repository.save(existUser));
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
-        else {
-            return  null;
-        }
-        return toDto(repository.save(existUser));
+
+
     }
 
    /* public List<UserDto> getAll() {
@@ -55,6 +60,7 @@ public class UserServiceImpl implements UserService {
         user.setId(user.getId());
         user.setUserName(dto.getUserName());
         user.setFullName(dto.getFullName());
+        user.setPassword(dto.getPassword());
         user.setBirthDate(dto.getBirthDate());
         user.setBirthPlace(dto.getBirthPlace());
         user.setTelNo(dto.getTelNo());
@@ -67,6 +73,7 @@ public class UserServiceImpl implements UserService {
         dto.setId(user.getId());
         dto.setUserName(user.getUserName());
         dto.setFullName(user.getFullName());
+        dto.setPassword(user.getPassword());
         dto.setBirthDate(user.getBirthDate());
         dto.setBirthPlace(user.getBirthPlace());
         dto.setTelNo(user.getTelNo());

@@ -27,7 +27,7 @@ public class BasketServiceImpl implements BasketService {
 
     public BasketDto get(String id) {
         return toDto(finBasketByUserId(id));
-    }
+    }//basketin içindeki user ın id sine göre getirecek
     private Basket finBasketByUserId(String id) {
         return repository.findBasketByUser_Id(Long.parseLong(id));
     }

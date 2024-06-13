@@ -1,5 +1,6 @@
 package com.hsgumussoy.javaodev2.response;
 
+import com.hsgumussoy.javaodev2.response.baseResponse.baseResponse;
 import lombok.*;
 
 import java.util.Date;
@@ -8,10 +9,11 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserResponse {
+public class UserResponse extends baseResponse {
     private Long id;
     private String userName;
     private String fullName;
+    private String password;
     private String tckn;
     private String birthPlace;
     private Date birthDate;

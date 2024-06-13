@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BasketResponse {
+public class BasketResponse  {
     private Long id;
     private Long userId;
 

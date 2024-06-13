@@ -2,6 +2,7 @@ package com.hsgumussoy.javaodev2.controller;
 
 import com.hsgumussoy.javaodev2.dto.UserDto;
 import com.hsgumussoy.javaodev2.request.UserRequest;
+import com.hsgumussoy.javaodev2.response.BasketResponse;
 import com.hsgumussoy.javaodev2.response.UserResponse;
 import com.hsgumussoy.javaodev2.service.UserService;
 import com.hsgumussoy.javaodev2.service.impl.UserServiceImpl;
@@ -37,8 +38,17 @@ public class UserController {
         service.delete(id);
     }
     @PutMapping("/{id}")
-    public UserResponse update(@PathVariable(name= "id") String id, @RequestBody UserRequest request){
-        return toResponse(service.update(id, toDto(request)));
+    public UserResponse update(@PathVariable(name= "id") String id, @RequestBody UserRequest request)throws Exception{
+        UserDto dto = service.update(id, toDto(request));
+
+        try {
+            return toResponse(dto);
+        }catch (Exception e){
+            UserResponse response =new UserResponse();
+            response.errorCode =4001;
+            response.errorMessage = "Kullanıcı Güncellenemedi.";
+            return response;
+        }
     }
 
     private UserResponse toResponse(UserDto dto) {
@@ -46,6 +56,7 @@ public class UserController {
                 .id(dto.getId())
                 .userName(dto.getUserName())
                 .fullName(dto.getFullName())
+                .password(dto.getPassword())
                 .telNo(dto.getTelNo())
                 .birthDate(dto.getBirthDate())
                 .birthPlace(dto.getBirthPlace())
@@ -56,6 +67,7 @@ public class UserController {
         return UserDto.builder()
                 .userName(request.getUserName())
                 .fullName(request.getFullName())
+                .password(request.getPassword())
                 .birthDate(request.getBirthDate())
                 .birthPlace(request.getBirthPlace())
                 .telNo(request.getTelNo())
