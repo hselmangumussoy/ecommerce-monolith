@@ -9,6 +9,6 @@ import lombok.*;
 @Builder
 public class BasketResponse {
     private Long id;
-    private int userId;
+    private Long userId;
 
 }

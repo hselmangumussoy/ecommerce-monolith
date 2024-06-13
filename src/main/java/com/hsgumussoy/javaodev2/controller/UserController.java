@@ -3,6 +3,7 @@ package com.hsgumussoy.javaodev2.controller;
 import com.hsgumussoy.javaodev2.dto.UserDto;
 import com.hsgumussoy.javaodev2.request.UserRequest;
 import com.hsgumussoy.javaodev2.response.UserResponse;
+import com.hsgumussoy.javaodev2.service.UserService;
 import com.hsgumussoy.javaodev2.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("users")
 public class UserController {
     @Autowired
-    private UserServiceImpl service;
+    private UserService service;
 
     @PostMapping
     public UserResponse save(@RequestBody UserRequest request) {

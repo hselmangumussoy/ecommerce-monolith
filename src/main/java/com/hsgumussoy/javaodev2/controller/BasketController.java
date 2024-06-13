@@ -3,6 +3,7 @@ package com.hsgumussoy.javaodev2.controller;
 import com.hsgumussoy.javaodev2.dto.BasketDto;
 import com.hsgumussoy.javaodev2.request.BasketRequest;
 import com.hsgumussoy.javaodev2.response.BasketResponse;
+import com.hsgumussoy.javaodev2.service.BasketService;
 import com.hsgumussoy.javaodev2.service.impl.BasketServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/baskets")
 public class BasketController {
     @Autowired
-    private BasketServiceImpl service;
+    private BasketService service;
 
     @PostMapping
     public BasketResponse save(@RequestBody BasketRequest request) {
@@ -38,14 +39,15 @@ public class BasketController {
     private BasketResponse toResponse(BasketDto dto) {
         BasketResponse response = new BasketResponse();
         response.setId(dto.getId());
-        //response.setUserId(dto.getUser().getId()); // DTO'dan gelen User'ın ID'sini ayarlıyoruz
+        response.setUserId(dto.getUser().getId()); // DTO'dan gelen User'ın ID'sini ayarlıyoruz
         return response;
     }
 
     private BasketDto toDto(BasketRequest request) {
         BasketDto dto = new BasketDto();
         // Kullanıcıyı User tipi ile ayarlamanız gerekiyor
-        // dto.setUser(userService.findById(request.getUserId()));
+        //dto.setUser(request.getUserId());
+        dto.getUser().setId(request.getUserId());
         return dto;
     }
 }

@@ -3,11 +3,12 @@ package com.hsgumussoy.javaodev2.service.impl;
 import com.hsgumussoy.javaodev2.dto.ProductDto;
 import com.hsgumussoy.javaodev2.entity.Product;
 import com.hsgumussoy.javaodev2.repository.ProductRepository;
+import com.hsgumussoy.javaodev2.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductServiceImpl {
+public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository repository;
 
@@ -18,7 +19,7 @@ public class ProductServiceImpl {
 
 
     public ProductDto get(String id) {
-        Product product = repository.findProductByProductId(Long.parseLong(id));
+        Product product = repository.findProductById(Long.parseLong(id));
         return toDto(product);
     }
 
@@ -28,7 +29,7 @@ public class ProductServiceImpl {
     }
 
     public ProductDto update(String id, ProductDto dto) {
-        Product existProduct =repository.findProductByProductId(Long.parseLong(id));
+        Product existProduct =repository.findProductById(Long.parseLong(id));
         if(existProduct != null) {
             existProduct.setId(dto.getId());
             existProduct.setName(dto.getName());

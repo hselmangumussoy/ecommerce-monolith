@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 public class BasketDto {
     private Long id;
-    private User user;
+    private UserDto user;
 
 
 }

@@ -25,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     public CategoryDto get(String id) {
-        Category category = repository.findCategoryByCategoryId(Long.parseLong(id));
+        Category category = repository.findCategoryById(Long.parseLong(id));
         return toDto(category);
     }
 
@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public CategoryDto update(String id, CategoryDto dto) {
-        Category existCategory =repository.findCategoryByCategoryId(Long.parseLong(id));
+        Category existCategory =repository.findCategoryById(Long.parseLong(id));
         if(existCategory != null){
 
         }

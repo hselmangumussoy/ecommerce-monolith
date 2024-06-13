@@ -8,5 +8,5 @@ public interface CategoryService {
     public CategoryDto get(String id);
     public CategoryDto delete(String id);
     public CategoryDto update(String id, CategoryDto dto);
-    //public List<Basket>getAll();
+    //public List<Category>getAll();
 }

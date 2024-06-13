@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class BasketRequest {
-    private int userId;
+    private Long userId;
 
 
 }

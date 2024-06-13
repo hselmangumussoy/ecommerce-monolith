@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
 
     public UserDto get(String id) {
-        User user = repository.findUserByUserId(Long.parseLong(id));
+        User user = repository.findUserById(Long.parseLong(id));
         return toDto(user);
     }
 
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserDto update(String id, UserDto dto) {
-        User existUser =repository.findUserByUserId(Long.parseLong(id));
+        User existUser =repository.findUserById(Long.parseLong(id));
         if(existUser != null){
             existUser.setId(dto.getId());
             existUser.setUserName(dto.getUserName());
