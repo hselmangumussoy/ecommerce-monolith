@@ -4,6 +4,7 @@ import com.hsgumussoy.javaodev2.dto.CategoryDto;
 import com.hsgumussoy.javaodev2.dto.ProductDto;
 import com.hsgumussoy.javaodev2.entity.Category;
 import com.hsgumussoy.javaodev2.entity.Product;
+import com.hsgumussoy.javaodev2.exception.RecordNotFoundExceptions;
 import com.hsgumussoy.javaodev2.repository.CategoryRepository;
 import com.hsgumussoy.javaodev2.repository.ProductRepository;
 import com.hsgumussoy.javaodev2.service.CategoryService;
@@ -48,6 +49,9 @@ public class CategoryServiceImpl implements CategoryService {
     /* public List<UserDto> getAll() {
          return repository.findAll();
      }*/
+    public Category findById(Long id){
+        return repository.findById(id).orElseThrow(() ->(new RecordNotFoundExceptions(4000,"Category not found")));
+    }
 
 
     private Category toEntity(CategoryDto dto) {

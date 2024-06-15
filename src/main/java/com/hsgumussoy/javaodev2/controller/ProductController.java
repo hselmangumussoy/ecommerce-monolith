@@ -28,7 +28,7 @@ public class ProductController {
 
     /*
     @GetMapping
-    public List<CategoryResponse> getAll(){
+    public List<Response> getAll(){
         return toResponse(service.getAll());
     }*/
 

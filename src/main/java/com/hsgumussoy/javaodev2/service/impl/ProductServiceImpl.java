@@ -2,6 +2,7 @@ package com.hsgumussoy.javaodev2.service.impl;
 
 import com.hsgumussoy.javaodev2.dto.ProductDto;
 import com.hsgumussoy.javaodev2.entity.Product;
+import com.hsgumussoy.javaodev2.exception.RecordNotFoundExceptions;
 import com.hsgumussoy.javaodev2.repository.ProductRepository;
 import com.hsgumussoy.javaodev2.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     public ProductDto get(String id) {
-        Product product = repository.findProductById(Long.parseLong(id));
-        return toDto(product);
+        return toDto(repository.findById(Long.parseLong(id)).orElseThrow(() ->(new RecordNotFoundExceptions(5000,"Product not found"))));
     }
 
     public ProductDto delete(String id) {
