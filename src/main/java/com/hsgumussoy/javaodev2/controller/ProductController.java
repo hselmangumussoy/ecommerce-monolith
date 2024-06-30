@@ -4,7 +4,6 @@ import com.hsgumussoy.javaodev2.dto.ProductDto;
 import com.hsgumussoy.javaodev2.request.ProductRequest;
 import com.hsgumussoy.javaodev2.response.ProductResponse;
 import com.hsgumussoy.javaodev2.service.ProductService;
-import com.hsgumussoy.javaodev2.service.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

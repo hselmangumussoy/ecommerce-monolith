@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface BasketRepository extends JpaRepository<Basket, Long> {
-    void deleteById(Long id);
+    //void deleteById(Long id);
     Basket findBasketByUser_Id(Long id); // doğru alan adını kullanarak metot adını değiştirin
+    Basket findBasketByUserIdAndStatusTrue(Long userId);
 }

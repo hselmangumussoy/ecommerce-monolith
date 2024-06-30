@@ -1,4 +1,4 @@
-package com.hsgumussoy.javaodev2.service.impl;
+package com.hsgumussoy.javaodev2.impl;
 
 import com.hsgumussoy.javaodev2.dto.UserDto;
 import com.hsgumussoy.javaodev2.repository.UserRepository;
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto get(String id) {
-        User user = repository.findUserById(Long.parseLong(id));
+        User user = repository.findById(Long.parseLong(id)).get();
         return toDto(user);
     }
 
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto update(String id, UserDto dto) {
         try{
-            User existUser =repository.findUserById(Long.parseLong(id));
+            User existUser =repository.findById(Long.parseLong(id)).get();
 
             if(existUser == null){
                 throw new Exception("Kullanıcı Bulunamadı");
@@ -68,6 +69,12 @@ public class UserServiceImpl implements UserService {
         return users.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDto findById(Long id) {
+        User user = repository.findById(id).orElseThrow(() -> new NoSuchElementException("No user found with id: " + id));
+        return toDto(user);
     }
 
     private User toEntity(UserDto dto) {

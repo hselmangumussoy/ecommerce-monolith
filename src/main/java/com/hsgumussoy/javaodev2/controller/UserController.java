@@ -2,18 +2,12 @@ package com.hsgumussoy.javaodev2.controller;
 
 import com.hsgumussoy.javaodev2.dto.UserDto;
 import com.hsgumussoy.javaodev2.request.UserRequest;
-import com.hsgumussoy.javaodev2.response.BasketResponse;
 import com.hsgumussoy.javaodev2.response.UserResponse;
 import com.hsgumussoy.javaodev2.service.UserService;
-import com.hsgumussoy.javaodev2.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController

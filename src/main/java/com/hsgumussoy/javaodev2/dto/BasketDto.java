@@ -1,6 +1,5 @@
 package com.hsgumussoy.javaodev2.dto;
 
-import com.hsgumussoy.javaodev2.entity.User;
 import lombok.*;
 
 @Getter
@@ -10,7 +9,5 @@ import lombok.*;
 @Builder
 public class BasketDto {
     private Long id;
-    private UserDto user;
-
-
+    private UserDto user ;
 }

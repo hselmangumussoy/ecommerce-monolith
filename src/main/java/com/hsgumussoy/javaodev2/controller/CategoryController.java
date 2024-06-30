@@ -6,7 +6,6 @@ import com.hsgumussoy.javaodev2.request.CategoryRequest;
 import com.hsgumussoy.javaodev2.response.CategoryResponse;
 import com.hsgumussoy.javaodev2.response.ProductResponse;
 import com.hsgumussoy.javaodev2.service.CategoryService;
-import com.hsgumussoy.javaodev2.service.impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

@@ -19,10 +19,16 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private String description;
 
     //@JoinColumn(name = "product_id")-> joinColumn sadece ManyToOne ve OneToOne da kullanılır
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
     private List<Product> products;
+
+    /*
+    @OneToMany(mappedBy = "category" , fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Product> productList = new ArrayList<>();
+    */
 
     //mappedBy = "category" ifadesi, Product sınıfındaki category alanının,
     //bu ilişkinin yönetileceği taraf olduğunu belirtir

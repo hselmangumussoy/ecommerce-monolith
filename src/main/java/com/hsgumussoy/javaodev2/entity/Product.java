@@ -1,5 +1,6 @@
 package com.hsgumussoy.javaodev2.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,8 +19,12 @@ public class Product {
     private Long id;
 
     private String name;
+    private String description;
+    private Double price;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
+    //@JsonBackReference
     private Category category;
 
 
