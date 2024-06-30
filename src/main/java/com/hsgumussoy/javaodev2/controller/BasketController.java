@@ -1,7 +1,7 @@
 package com.hsgumussoy.javaodev2.controller;
 
 import com.hsgumussoy.javaodev2.dto.BasketDto;
-import com.hsgumussoy.javaodev2.request.AddProductToBasketRequest;
+import com.hsgumussoy.javaodev2.request.BasketRequest;
 import com.hsgumussoy.javaodev2.response.BasketResponse;
 import com.hsgumussoy.javaodev2.service.BasketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class BasketController {
     private BasketService basketService;
 
     @PostMapping
-    public BasketResponse save(@RequestBody AddProductToBasketRequest request) {
+    public BasketResponse save(@RequestBody BasketRequest request) {
         return toResponse(basketService.save(toDto(request)));
     }
 
@@ -46,7 +46,7 @@ public class BasketController {
     }
 
     @PutMapping("/{id}")
-    public BasketResponse update(@PathVariable(name = "id") String id, @RequestBody AddProductToBasketRequest request) {
+    public BasketResponse update(@PathVariable(name = "id") String id, @RequestBody BasketRequest request) {
         return toResponse(basketService.update(id, toDto(request)));
     }
 
@@ -55,7 +55,7 @@ public class BasketController {
 
 
 
-    private BasketDto toDto(AddProductToBasketRequest request) {
+    private BasketDto toDto(BasketRequest request) {
         BasketDto dto = new BasketDto();
         dto.setId(request.getUserId());
         return dto;

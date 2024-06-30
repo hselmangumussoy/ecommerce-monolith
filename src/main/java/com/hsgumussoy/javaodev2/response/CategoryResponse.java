@@ -1,5 +1,6 @@
 package com.hsgumussoy.javaodev2.response;
 
+import com.hsgumussoy.javaodev2.dto.ProductDto;
 import com.hsgumussoy.javaodev2.entity.Product;
 import lombok.*;
 
@@ -12,7 +13,8 @@ import java.util.List;
 public class CategoryResponse {
     private Long id;
     private String name;
-    private List<ProductResponse> productList;
+    private String descirption;
+    private List<ProductDto> productList;
 
 
 }

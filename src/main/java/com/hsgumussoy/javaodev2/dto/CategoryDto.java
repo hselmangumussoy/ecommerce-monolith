@@ -13,6 +13,7 @@ import java.util.List;
 public class CategoryDto {
     private Long id;
     private String name;
+    private String description;
     private List<ProductDto> productsList;
 
 

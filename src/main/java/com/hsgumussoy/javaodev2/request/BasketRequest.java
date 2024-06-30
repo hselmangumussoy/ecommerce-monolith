@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AddProductToBasketRequest {
+public class BasketRequest {
     private Long userId;
     private  Long productId;
     private int count;
