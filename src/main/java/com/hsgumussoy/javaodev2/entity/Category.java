@@ -23,7 +23,7 @@ public class Category {
 
     //@JoinColumn(name = "product_id")-> joinColumn sadece ManyToOne ve OneToOne da kullanılır
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
-    private List<Product> products;
+    private List<Product> productList;
 
     /*
     @OneToMany(mappedBy = "category" , fetch = FetchType.EAGER, cascade = CascadeType.ALL)

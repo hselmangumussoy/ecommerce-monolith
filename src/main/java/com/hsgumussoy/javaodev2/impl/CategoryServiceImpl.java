@@ -24,10 +24,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
-
-    public CategoryDto get(String id) {
-        Category category = repository.findCategoryById(Long.parseLong(id));
-        return toDto(category);
+    @Override
+    public CategoryDto getById(Long id) {
+        return toDto(repository.findById(id).orElseThrow(RuntimeException::new));
     }
 
     public CategoryDto delete(String id) {
@@ -45,6 +44,9 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return toDto(repository.save(existCategory));
     }
+
+
+
 
     /* public List<UserDto> getAll() {
          return repository.findAll();
@@ -70,30 +72,26 @@ public class CategoryServiceImpl implements CategoryService {
                 })
                 .collect(Collectors.toList());
 
-        category.setProducts(products);
+        category.setProductList(products);
 
         return category;
 
     }
     private CategoryDto toDto(Category category) {
-        CategoryDto dto = new CategoryDto();
-        dto.setId(category.getId());
-        dto.setName(category.getName());
-
-
-        List<ProductDto> productDtos = category.getProducts().stream()
-                .map(product -> {
-                    ProductDto productDto = new ProductDto();
-                    productDto.setId(product.getId());
-                    productDto.setName(product.getName());
-                    productDto.setCategoryId(product.getCategory().getId().intValue());
-                    return productDto;
-                })
-                .collect(Collectors.toList());
-
-        dto.setProductsList(productDtos);
-
-        return dto;
+        category.setProductList(category.getProductList());
+        return CategoryDto.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .description(category.getDescription())
+                .build();
+    }
+    private Product toEntityForProduct(ProductDto dto){
+        return Product.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .price(dto.getPrice())
+                .build();
     }
 
 }

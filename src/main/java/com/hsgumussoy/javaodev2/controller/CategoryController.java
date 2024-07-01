@@ -23,8 +23,8 @@ public class CategoryController {
 
 
     @GetMapping("/{id}")
-    public CategoryResponse get(@PathVariable(name= "id") String id){
-        return toResponse(service.get(id));
+    public CategoryResponse getCategoryById(@PathVariable Long id){
+        return toResponse(service.getById(id));
     }
 
     /*
