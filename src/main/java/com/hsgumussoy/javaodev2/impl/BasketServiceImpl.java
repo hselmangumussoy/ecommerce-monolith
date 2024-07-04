@@ -3,8 +3,10 @@ package com.hsgumussoy.javaodev2.impl;
 import com.hsgumussoy.javaodev2.dto.BasketDto;
 import com.hsgumussoy.javaodev2.dto.UserDto;
 import com.hsgumussoy.javaodev2.entity.Basket;
+import com.hsgumussoy.javaodev2.entity.BasketProduct;
 import com.hsgumussoy.javaodev2.entity.User;
 import com.hsgumussoy.javaodev2.repository.BasketRepository;
+import com.hsgumussoy.javaodev2.service.BasketProductService;
 import com.hsgumussoy.javaodev2.service.BasketService;
 import com.hsgumussoy.javaodev2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,15 +25,24 @@ public class BasketServiceImpl implements BasketService {
     private BasketRepository repository;
 
     @Autowired
-    private UserService userService;
+    private BasketProductService basketProductService;
 
+    private final int BASKET_STATUS_NONE = 0;
+    private final int BASKET_STATUS_SALED = 1;
     @Override
     public BasketDto save(BasketDto dto) {
-        repository.findBasketByUserIdAndStatusTrue() ;
-        return basketToDto(repository.save(basketToEntity(dto)));
-
+        Optional<Basket> basket =repository.findByUser_UserIdAndStatusEquals(dto.getUser().setId(), BASKET_STATUS_NONE);
+        if (basket.isPresent()){
+            return haveBasketAddNew(basket.get(),basketToDto())
+        }else {
+            return nullBasketAddPrdoduct(basketToDto());
+        }
     }
 
+    private BasketDto haveBasketAddNew(Basket basket, BasketDto basketDto) {
+        List<BasketProduct>  basketProductList = basket.getBasketProductList();
+        BasketProduct basketProduct = basketProductService.findByBasketIdAndProductId(basket.getId(),basketDto.getBasketProductDtoList().get(0).getProductId());
+    }
 
 
     @Override

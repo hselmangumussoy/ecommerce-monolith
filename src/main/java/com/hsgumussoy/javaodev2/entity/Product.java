@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -22,8 +24,10 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    //@JsonBackReference
     private Category category;
+
+    @OneToMany
+    private List<BasketProduct> basketProductList;
 
 
 }
