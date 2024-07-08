@@ -1,26 +1,26 @@
 package com.hsgumussoy.javaodev2.impl;
 
 import com.hsgumussoy.javaodev2.dto.CategoryDto;
-import com.hsgumussoy.javaodev2.dto.ProductDto;
 import com.hsgumussoy.javaodev2.entity.Category;
-import com.hsgumussoy.javaodev2.entity.Product;
 import com.hsgumussoy.javaodev2.exception.RecordNotFoundExceptions;
+import com.hsgumussoy.javaodev2.mapper.CategoryMapper;
 import com.hsgumussoy.javaodev2.repository.CategoryRepository;
-import com.hsgumussoy.javaodev2.repository.ProductRepository;
 import com.hsgumussoy.javaodev2.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository repository;
+    @Autowired
+    CategoryMapper categoryMapper;
+
 
     public CategoryDto save(CategoryDto dto) {
-        return  toDto(repository.save(toEntity(dto)));
+        return  categoryMapper.requestToDto(repository.save(categoryMapper.(dto)));
     }
 
 
@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
         return toDto(repository.findById(id).orElseThrow(RuntimeException::new));
     }
 
-    public CategoryDto delete(String id) {
+    public void delete(String id) {
         Category category = repository.deleteCategoryById(Long.parseLong(id));
         return toDto(category);
     }
@@ -45,7 +45,10 @@ public class CategoryServiceImpl implements CategoryService {
         return toDto(repository.save(existCategory));
     }
 
-
+    @Override
+    public List<CategoryDto> getAll() {
+        return null;
+    }
 
 
     /* public List<UserDto> getAll() {
@@ -56,42 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
-    private Category toEntity(CategoryDto dto) {
-        Category category = new Category();
-        category.setId(dto.getId());
-        category.setName(dto.getName());
 
-        List<Product> products = dto.getProductsList().stream()
-                .map(productDto ->{
-                    ProductRepository productRepository = null;//repository i parametre olarak almamak için yerel olarak oluşturdum
-                    Product product = productRepository.findById(productDto.getId()).orElse(new Product());
-                    product.setId(product.getId());
-                    product.setName(product.getName());
-                    product.setCategory(category);
-                    return product;
-                })
-                .collect(Collectors.toList());
 
-        category.setProductList(products);
-
-        return category;
-
-    }
-    private CategoryDto toDto(Category category) {
-        category.setProductList(category.getProductList());
-        return CategoryDto.builder()
-                .id(category.getId())
-                .name(category.getName())
-                .description(category.getDescription())
-                .build();
-    }
-    private Product toEntityForProduct(ProductDto dto){
-        return Product.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .price(dto.getPrice())
-                .build();
-    }
 
 }
