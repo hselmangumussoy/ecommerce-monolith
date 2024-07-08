@@ -44,14 +44,7 @@ public class ProductServiceImpl implements ProductService {
     /* public List<UserDto> getAll() {
          return repository.findAll();
      }*/
-    private Product toEntity(ProductDto dto) {
-        Product product = new Product();
-        product.setId(dto.getId());
-        product.setName(dto.getName());
-        //product.setCategory(dto.getCategoryId());
-        return product;
 
-    }
     private ProductDto toDto(Product product) {
         ProductDto dto = new ProductDto();
         dto.setId(product.getId());

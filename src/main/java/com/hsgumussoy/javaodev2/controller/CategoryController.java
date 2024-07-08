@@ -26,19 +26,19 @@ public class CategoryController {
 
 
     @GetMapping("/{id}")
-    public CategoryResponse getCategoryById(@PathVariable Long id) {
-        return categoryMapper.dtoToResponse(service.getById(id));
+    public CategoryResponse get(@PathVariable String id) {
+        return categoryMapper.dtoToResponse(service.get(id));
     }
 
 
     @GetMapping
     public List<CategoryResponse> getAll(){
-        return categoryMapper.mapCategoryResponses(service.getAll());
+        return categoryMapper.mapDtosToResponses(service.getAll());
     }
 
     @DeleteMapping("/{id}")
-    public CategoryResponse delete(@PathVariable(name = "id") String id) {
-        return categoryMapper.dtoToResponse(service.delete(id));
+    public void delete(@PathVariable(name = "id") String id) {
+        service.delete(id);
     }
 
     @PutMapping("/{id}")

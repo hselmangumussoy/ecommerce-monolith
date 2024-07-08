@@ -9,6 +9,7 @@ import com.hsgumussoy.javaodev2.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,35 +21,36 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     public CategoryDto save(CategoryDto dto) {
-        return  categoryMapper.requestToDto(repository.save(categoryMapper.(dto)));
+        return  categoryMapper.entityToDto(repository.save(categoryMapper.dtoToEntity(dto)));
     }
-
-
     @Override
-    public CategoryDto getById(Long id) {
-        return toDto(repository.findById(id).orElseThrow(RuntimeException::new));
+    public CategoryDto get(String id) {
+        return categoryMapper.entityToDto(repository.findById(Long.parseLong(id))
+                .orElseThrow(()-> new RecordNotFoundExceptions(4000,"Category not found with id"+id)));
     }
 
     public void delete(String id) {
-        Category category = repository.deleteCategoryById(Long.parseLong(id));
-        return toDto(category);
+        repository.findById(Long.parseLong(id));
     }
 
     public CategoryDto update(String id, CategoryDto dto) {
-        Category existCategory =repository.findCategoryById(Long.parseLong(id));
-        if(existCategory != null){
+        Category existCategory = repository.findById(Long.parseLong(id))
+                .orElseThrow(()-> new RecordNotFoundExceptions(4000, "Category not found with id"+id));
 
-        }
-        else {
-            return  null;
-        }
-        return toDto(repository.save(existCategory));
+        return categoryMapper.entityToDto(existCategory);
     }
 
     @Override
     public List<CategoryDto> getAll() {
-        return null;
+        List<CategoryDto> categoryDtoList = new ArrayList<>();
+
+        for(Category category: repository.findAll()){
+            categoryDtoList.add(categoryMapper.entityToDto(category));
+        }
+        return categoryDtoList;
     }
+
+
 
 
     /* public List<UserDto> getAll() {

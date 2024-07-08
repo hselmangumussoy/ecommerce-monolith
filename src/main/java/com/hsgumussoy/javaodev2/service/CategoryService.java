@@ -10,7 +10,7 @@ public interface CategoryService {
     public void delete(String id);
     public CategoryDto update(String id, CategoryDto dto);
     List<CategoryDto> getAll();
-    public CategoryDto getById(Long id);
+    public CategoryDto get(String id);
 
     //public List<Category>getAll();
 }
