@@ -1,6 +1,9 @@
 package com.hsgumussoy.javaodev2.mapper;
 
 import com.hsgumussoy.javaodev2.dto.BasketDto;
+import com.hsgumussoy.javaodev2.dto.BasketProductDto;
+import com.hsgumussoy.javaodev2.entity.Basket;
+import com.hsgumussoy.javaodev2.entity.BasketProduct;
 import com.hsgumussoy.javaodev2.request.BasketRequest;
 import com.hsgumussoy.javaodev2.response.BasketResponse;
 import org.springframework.stereotype.Component;
@@ -29,6 +32,27 @@ public class BasketMapper {
         return basketDtoList.stream()
                 .map(this::dtoToResponse)
                 .collect(Collectors.toList());
+    }
+    public BasketDto entityToDto(Basket basket) {
+        return BasketDto.builder()
+                .id(basket.getId())
+                .status(basket.getStatus())
+                .totalPrice(basket.getTotalPrice())
+                .basketProductDtoList(mapBasketProductsToBasketProductDtos(basket.getBasketProductList()))
+                .build();
+    }
+    public List<BasketProductDto> mapBasketProductsToBasketProductDtos(List<BasketProduct> basketProductList){
+        return basketProductList.stream()
+                .map(this::basketProductToBasketProductDto)
+                .collect(Collectors.toList());
+    }
+    public BasketProductDto basketProductToBasketProductDto(BasketProduct basketProduct){
+        return BasketProductDto.builder()
+                .basketId(basketProduct.getBasket().getId())
+                .productId(basketProduct.getProduct().getId())
+                .count(basketProduct.getCount())
+                .id(basketProduct.getId())
+                .build();
     }
 
 
