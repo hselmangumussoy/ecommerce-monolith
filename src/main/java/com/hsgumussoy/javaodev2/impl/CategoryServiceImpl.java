@@ -30,14 +30,20 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public void delete(String id) {
-        repository.findById(Long.parseLong(id));
+        repository.deleteById(Long.parseLong(id));
     }
 
     public CategoryDto update(String id, CategoryDto dto) {
+        // String id'yi Long id'ye çeviriyoruz ve kategori var mı diye kontrol ediyoruz
         Category existCategory = repository.findById(Long.parseLong(id))
                 .orElseThrow(()-> new RecordNotFoundExceptions(4000, "Category not found with id"+id));
 
-        return categoryMapper.entityToDto(existCategory);
+        // Mevcut kategori bilgilerini dto'dan gelen bilgilerle güncelliyoruz
+        Category updateCategory = categoryMapper.dtoToEntity(dto);
+        updateCategory.setId(existCategory.getId());// ID'nin korunması gerekebilir, çünkü yeni bir entity yaratıyoruz
+
+
+        return categoryMapper.entityToDto(repository.save(updateCategory));
     }
 
     @Override
