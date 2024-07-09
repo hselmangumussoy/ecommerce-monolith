@@ -3,55 +3,58 @@ package com.hsgumussoy.javaodev2.impl;
 import com.hsgumussoy.javaodev2.dto.ProductDto;
 import com.hsgumussoy.javaodev2.entity.Product;
 import com.hsgumussoy.javaodev2.exception.RecordNotFoundExceptions;
+import com.hsgumussoy.javaodev2.mapper.ProductMapper;
 import com.hsgumussoy.javaodev2.repository.ProductRepository;
 import com.hsgumussoy.javaodev2.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository repository;
+    @Autowired
+    private ProductMapper productMapper;
 
     public ProductDto save(ProductDto dto) {
-        return  toDto(repository.save(toEntity(dto)));
+        return productMapper.productToDto(repository.save(productMapper.dtoToEntity(dto)));
     }
-
-
 
     public ProductDto get(String id) {
-        return toDto(repository.findById(Long.parseLong(id)).orElseThrow(() ->(new RecordNotFoundExceptions(5000,"Product not found"))));
+        return productMapper.productToDto(repository.findById(Long.parseLong(id)).orElseThrow(() -> (new RecordNotFoundExceptions(5000, "Product not found"))));
     }
 
-    public ProductDto delete(String id) {
-        Product product = repository.deleteProductById(Long.parseLong(id));
-        return toDto(product);
+    public void delete(String id) {
+        repository.deleteById(Long.parseLong(id));
     }
 
     public ProductDto update(String id, ProductDto dto) {
-        Product existProduct =repository.findProductById(Long.parseLong(id));
-        if(existProduct != null) {
-            existProduct.setId(dto.getId());
-            existProduct.setName(dto.getName());
-            //existProduct.setCategory(dto.getCategoryId());
-        }
-        else{
-            return null;
-        }
-        return toDto(repository.save(existProduct));
+        // String id'yi Long id'ye çeviriyoruz ve kategori var mı diye kontrol ediyoruz
+        Product existProduct = repository.findById(Long.parseLong(id))
+                .orElseThrow(() -> new RecordNotFoundExceptions(4000, "Product not found with id" + id));
+
+        // Mevcut product bilgilerini dto'dan gelen bilgilerle güncelliyoruz
+        Product updateProduct = productMapper.dtoToEntity(dto);
+        updateProduct.setId(existProduct.getId());// ID'nin korunması gerekebilir, çünkü yeni bir entity yaratıyoruz
+
+
+        return productMapper.entityToDto(repository.save(updateProduct));
     }
 
-    /* public List<UserDto> getAll() {
-         return repository.findAll();
-     }*/
+    @Override
+    public List<ProductDto> getAll() {
+        List<ProductDto> productDtoList = new ArrayList<>();
 
-    private ProductDto toDto(Product product) {
-        ProductDto dto = new ProductDto();
-        dto.setId(product.getId());
-        dto.setName(product.getName());
-        //dto.setCategoryId((product.getCategory().getId());
-        return dto;
+        for (Product product : repository.findAll()) {
+            productDtoList.add(productMapper.entityToDto(product));
+        }
+        return productDtoList;
     }
+
+
 }
 
 

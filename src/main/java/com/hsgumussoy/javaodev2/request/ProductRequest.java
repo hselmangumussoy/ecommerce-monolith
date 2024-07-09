@@ -9,7 +9,9 @@ import lombok.*;
 @Builder
 public class ProductRequest {
     private String name;
-    private int categoryId;
+    private String description;
+    private Double price;
+    private Long categoryId;
 
 
 }
