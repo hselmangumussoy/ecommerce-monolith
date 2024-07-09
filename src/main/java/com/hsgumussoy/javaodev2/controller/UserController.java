@@ -1,6 +1,6 @@
 package com.hsgumussoy.javaodev2.controller;
 
-import com.hsgumussoy.javaodev2.dto.UserDto;
+import com.hsgumussoy.javaodev2.mapper.UserMapper;
 import com.hsgumussoy.javaodev2.request.UserRequest;
 import com.hsgumussoy.javaodev2.response.UserResponse;
 import com.hsgumussoy.javaodev2.service.UserService;
@@ -8,35 +8,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("users")
 public class UserController {
     @Autowired
     private UserService service;
+    @Autowired
+    private UserMapper userMapper;
 
     @PostMapping
     public UserResponse save(@RequestBody UserRequest request) {
-        return toResponse(service.save(toDto(request)));
+        return userMapper.dtoToResponse(service.save(userMapper.requestToDto(request)));
     }
 
 
     @GetMapping("/{id}")
-    public UserResponse get(@PathVariable(name= "id") String id){
-        return toResponse(service.get(id));
+    public UserResponse get(@PathVariable(name = "id") String id) {
+        return userMapper.dtoToResponse(service.get(id));
     }
 
 
     @GetMapping
-    public List<UserResponse> getAll(){
-        List<UserDto> dtos  = service.getAll();
-        List<UserResponse> userResponses = dtos.stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-        return userResponses;
+    public List<UserResponse> getAll() {
+        return userMapper.dtosToResponses(service.getAll());
     }
-    /*
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable(name = "id") String id) {
+        service.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    public UserResponse update(@PathVariable(name = "id") String id, @RequestBody UserRequest request) {
+        return userMapper.dtoToResponse(service.update(id, userMapper.requestToDto(request)));
+    }
+
+
+
+     /*
     stream(): Bir koleksiyon üzerinde işlem yapmak için kullanılan bir Stream oluşturur.
     Stream, koleksiyon elemanlarını tek tek işlemek için kullanılır.
 
@@ -52,28 +63,7 @@ public class UserController {
 
     */
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable(name= "id") String id){
-            service.delete(id);
-    }
 
-    @PutMapping("/{id}")
-    public UserResponse update(@PathVariable(name= "id") String id, @RequestBody UserRequest request) {
-        try {
-            return toResponse(service.update(id, toDto(request)));
-
-        } catch (IllegalArgumentException e) {
-            UserResponse response = new UserResponse();
-            response.setErrorCode(4001);
-            response.setErrorMessage("Geçersiz istek.");
-            return response;
-        } catch (RuntimeException e) {
-            UserResponse response = new UserResponse();
-            response.setErrorCode(4002);
-            response.setErrorMessage("Kullanıcı güncellenemedi.");
-            return response;
-        }
-    }
     /*
     public ResponseEntity<UserResponse> update(@PathVariable(name= "id") String id, @RequestBody UserRequest request) {
     try {
@@ -93,27 +83,5 @@ public class UserController {
     }
 }*/
 
-    private UserResponse toResponse(UserDto dto) {
-        return  UserResponse.builder()
-                .id(dto.getId())
-                .userName(dto.getUserName())
-                .fullName(dto.getFullName())
-                .password(dto.getPassword())
-                .telNo(dto.getTelNo())
-                .birthDate(dto.getBirthDate())
-                .birthPlace(dto.getBirthPlace())
-                .tckn(dto.getTckn())
-                .build();
-    }
-    private UserDto toDto(UserRequest request) {
-        return UserDto.builder()
-                .userName(request.getUserName())
-                .fullName(request.getFullName())
-                .password(request.getPassword())
-                .birthDate(request.getBirthDate())
-                .birthPlace(request.getBirthPlace())
-                .telNo(request.getTelNo())
-                .tckn(request.getTckn())
-                .build();
-    }
+
 }

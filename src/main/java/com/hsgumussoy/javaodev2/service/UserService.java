@@ -12,7 +12,6 @@ public interface UserService {
     public UserDto update(String id, UserDto dto);
     public List<UserDto> getAll();
 
-    public UserDto findById(Long id);
 
 
 }
