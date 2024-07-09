@@ -13,7 +13,7 @@ public class BasketDto {
     private Long id;
     private int status;
     private double totalPrice;
-    private UserDto user = new UserDto();
+    private Long userId;
     private List<BasketProductDto> basketProductDtoList;
 
 
