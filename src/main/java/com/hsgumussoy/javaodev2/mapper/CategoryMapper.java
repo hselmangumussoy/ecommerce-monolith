@@ -20,12 +20,11 @@ public class CategoryMapper {
     private ProductMapper productMapper;
 
     public CategoryResponse dtoToResponse(CategoryDto dto) {
-
         return CategoryResponse.builder()
                 .id(dto.getId())
                 .name(dto.getName())
                 .descirption(dto.getDescription())
-                .productList(dto.getProductsList())
+                .productList(dto.getProductList())
                 .build();
     }
     public List<CategoryResponse> mapDtosToResponses(List<CategoryDto> categoryDtoList){
@@ -35,7 +34,6 @@ public class CategoryMapper {
     }
 
     public CategoryDto requestToDto(CategoryRequest request) {
-
         return CategoryDto.builder()
                 .name(request.getName())
                 .description(request.getDescrpition())
@@ -44,23 +42,21 @@ public class CategoryMapper {
     }
 
     public Category dtoToEntity(CategoryDto dto) {
-        Category category = new Category();
-
-        category.setName(dto.getName());
-        category.setDescription(dto.getDescription());
-        category.setProductList(productMapper.mapDtosToEntity(dto.getProductsList()));
-
-        return category;
+        return Category.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .productList(productMapper.mapDtosToEntity(dto.getProductList()))
+                .build();
 
     }
 
     public CategoryDto entityToDto(Category category) {
-        category.setProductList(category.getProductList());
         return CategoryDto.builder()
                 .id(category.getId())
                 .name(category.getName())
                 .description(category.getDescription())
-                //.productsList(category.getProductList())
+                .productList(productMapper.mapEntitiesToDtos(category.getProductList()))
                 .build();
     }
 }

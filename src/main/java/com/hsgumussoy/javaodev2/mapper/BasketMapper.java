@@ -14,54 +14,45 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Component
 public class BasketMapper {
     @Autowired
     private UserServiceImpl userService;
     @Autowired
-    private BasketServiceImpl basketService;
-    @Autowired
-    private ProductServiceImpl productService;
+    private BasketProductMapper basketProductMapper;
+
     public BasketDto requestToDto(BasketRequest request) {
         return BasketDto.builder()
                 .status(request.getCount())
                 .totalPrice(request.getTotalPrice())
                 .userId(request.getUserId())
                 .build();
-                //.basketProductDtoList(request.)build();
     }
+
     public BasketResponse dtoToResponse(BasketDto dto) {
         return BasketResponse.builder()
                 .id(dto.getId())
                 .status(dto.getStatus())
                 .totalPrice(dto.getTotalPrice())
                 .basketProductDtoList(dto.getBasketProductDtoList())
+                .userId(dto.getUserId())
                 .build();
     }
-    public List<BasketResponse> mapDtosToResponses(List<BasketDto> basketDtoList){
+
+    public List<BasketResponse> mapDtosToResponses(List<BasketDto> basketDtoList) {
         return basketDtoList.stream()
                 .map(this::dtoToResponse)
                 .collect(Collectors.toList());
     }
+
     public BasketDto entityToDto(Basket basket) {
         return BasketDto.builder()
                 .id(basket.getId())
+                .userId(basket.getUser().getId())
                 .status(basket.getStatus())
                 .totalPrice(basket.getTotalPrice())
-                .basketProductDtoList(mapBasketProductsToBasketProductDtos(basket.getBasketProductList()))
-                .build();
-    }
-    public List<BasketProductDto> mapBasketProductsToBasketProductDtos(List<BasketProduct> basketProductList){
-        return basketProductList.stream()
-                .map(this::basketProductToBasketProductDto)
-                .collect(Collectors.toList());
-    }
-    public BasketProductDto basketProductToBasketProductDto(BasketProduct basketProduct){
-        return BasketProductDto.builder()
-                .basketId(basketProduct.getBasket().getId())
-                .productId(basketProduct.getProduct().getId())
-                .count(basketProduct.getCount())
-                .id(basketProduct.getId())
+                .basketProductDtoList(basketProductMapper.mapEntitesToDtos(basket.getBasketProductList()))
                 .build();
     }
 
@@ -71,24 +62,9 @@ public class BasketMapper {
                 .status(dto.getStatus())
                 .totalPrice(dto.getTotalPrice())
                 .user(userService.findUserById(dto.getUserId()))
-                .basketProductList(mapBasketProductDtosToBasketProducts(dto.getBasketProductDtoList()))
+                .basketProductList(basketProductMapper.mapDtosToEntites(dto.getBasketProductDtoList()))
                 .build();
     }
 
 
-    private List<BasketProduct> mapBasketProductDtosToBasketProducts(List<BasketProductDto> basketProductDtoList) {
-        return basketProductDtoList.stream()
-                .map(this::basketProductDtoToBasketProduct)
-                .collect(Collectors.toList());
-    }
-
-    private BasketProduct basketProductDtoToBasketProduct(BasketProductDto basketProductDto) {
-        return BasketProduct.builder()
-                .count(basketProductDto.getCount())
-                .id(basketProductDto.getId())
-                .totalAmount(basketProductDto.getTotalAmount())
-                .product(productService.findProductById(basketProductDto.getProductId()))
-                .basket(basketService.findBasketById(basketProductDto.getBasketId()))
-                .build();
-    }
 }

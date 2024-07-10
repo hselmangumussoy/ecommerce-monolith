@@ -2,14 +2,18 @@ package com.hsgumussoy.javaodev2.mapper;
 
 import com.hsgumussoy.javaodev2.dto.ProductDto;
 import com.hsgumussoy.javaodev2.entity.Product;
+import com.hsgumussoy.javaodev2.impl.CategoryServiceImpl;
 import com.hsgumussoy.javaodev2.request.ProductRequest;
 import com.hsgumussoy.javaodev2.response.ProductResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public class ProductMapper {
+    @Autowired
+    private CategoryServiceImpl categoryService;
     public ProductResponse dtoToResponse(ProductDto dto) {
         return ProductResponse.builder()
                 .id(dto.getId())
@@ -35,12 +39,12 @@ public class ProductMapper {
 
     }
     public Product dtoToEntity(ProductDto dto) {
-        Product product = new Product();
-        product.setId(dto.getId());
-        product.setName(dto.getName());
-        product.setDescription(dto.getDescription());
-        product.getCategory().setId(dto.getCategoryId());
-        return product;
+        return Product.builder()
+                .name(dto.getName())
+                .price(dto.getPrice())
+                .category(categoryService.findCategoryById(dto.getCategoryId()))
+                .description(dto.getDescription())
+                .build();
     }
     public List<Product> mapDtosToEntity(List<ProductDto> productDtos){
         return productDtos.stream()
@@ -48,15 +52,6 @@ public class ProductMapper {
                 .collect(Collectors.toList());
     }
 
-    public ProductDto productToDto(Product product) {
-        return ProductDto.builder()
-                .name(product.getName())
-                .price(product.getPrice())
-                .id(product.getId())
-                .categoryId(product.getCategory().getId())
-                .description(product.getDescription())
-                .build();
-    }
 
     public ProductDto entityToDto(Product product) {
         return ProductDto.builder()
@@ -66,5 +61,11 @@ public class ProductMapper {
                 .name(product.getName())
                 .categoryId(product.getCategory().getId())
                 .build();
+    }
+
+    public List<ProductDto> mapEntitiesToDtos(List<Product> products) {
+        return products.stream()
+                .map(this::entityToDto)
+                .collect(Collectors.toList());
     }
 }

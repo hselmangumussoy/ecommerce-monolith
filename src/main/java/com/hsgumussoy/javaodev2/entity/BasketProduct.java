@@ -3,7 +3,6 @@ package com.hsgumussoy.javaodev2.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 
 @Entity
 @Getter
@@ -16,6 +15,7 @@ public class BasketProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private int count;
     private double totalAmount;
 
