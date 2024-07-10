@@ -3,8 +3,6 @@ package com.hsgumussoy.javaodev2.impl;
 import com.hsgumussoy.javaodev2.entity.BasketProduct;
 import com.hsgumussoy.javaodev2.repository.BasketProductRepository;
 import com.hsgumussoy.javaodev2.service.BasketProductService;
-import com.hsgumussoy.javaodev2.service.BasketService;
-import com.hsgumussoy.javaodev2.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +10,31 @@ import org.springframework.stereotype.Service;
 public class BasketProductServiceImpl implements BasketProductService {
 
     @Autowired
-    BasketProductRepository repository;
-    @Autowired
-    BasketService basketService;
+    private BasketProductRepository repository;
 
     @Autowired
-    ProductService productService;
+    private BasketServiceImpl basketService;
+
+    @Autowired
+    private ProductServiceImpl productService;
 
     @Override
     public BasketProduct save(BasketProduct basketProduct) {
-        return repository.save(basketProduct).findBasketProductByBasket_BasketIdAndProduct_ProductId;
+        // Basket ve Product varlığını kontrol edin
+        if (basketProduct.getBasket() == null || basketProduct.getProduct() == null) {
+            throw new IllegalArgumentException("Basket and Product must not be null");
+        }
+
+        // İlgili Basket ve Product varlıklarını doğrulayın
+        basketService.findBasketById(basketProduct.getBasket().getId());
+        productService.findProductById(basketProduct.getProduct().getId());
+
+        // BasketProduct varlığını kaydedin
+        return repository.save(basketProduct);
     }
 
+    public BasketProduct findBasketProductByBasketIdAndProductId(Long basketId, Long productId) {
+        return repository.findByBasketIdAndProductId(basketId, productId)
+                .orElseThrow(() -> new IllegalArgumentException("BasketProduct not found with given basketId and productId"));
+    }
 }
