@@ -23,7 +23,7 @@ public class CategoryMapper {
         return CategoryResponse.builder()
                 .id(dto.getId())
                 .name(dto.getName())
-                .descirption(dto.getDescription())
+                .descrpition(dto.getDescription())
                 .productList(dto.getProductList())
                 .build();
     }
@@ -43,20 +43,25 @@ public class CategoryMapper {
 
     public Category dtoToEntity(CategoryDto dto) {
         return Category.builder()
-                .id(dto.getId())
                 .name(dto.getName())
                 .description(dto.getDescription())
-                .productList(productMapper.mapDtosToEntity(dto.getProductList()))
                 .build();
 
     }
 
     public CategoryDto entityToDto(Category category) {
-        return CategoryDto.builder()
+        CategoryDto.CategoryDtoBuilder builder = CategoryDto.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .description(category.getDescription())
-                .productList(productMapper.mapEntitiesToDtos(category.getProductList()))
-                .build();
+                .description(category.getDescription());
+
+        if (category.getProductList() != null) {
+            builder.productList(productMapper.mapEntitiesToDtos(category.getProductList()));
+        } else {
+            builder.productList(null); // veya isteğe bağlı bir değer atayabilirsiniz
+        }
+
+        return builder.build();
     }
+
 }
