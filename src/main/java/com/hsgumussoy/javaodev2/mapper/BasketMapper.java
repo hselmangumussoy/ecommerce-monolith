@@ -38,7 +38,7 @@ public class BasketMapper {
                 .id(dto.getId())
                 .status(dto.getStatus())
                 .totalPrice(dto.getTotalPrice())
-                .basketProductDtoList(dto.getBasketProductDtoList())
+                .basketProductList(dto.getBasketProductList())
                 .userId(dto.getUserId())
                 .build();
     }
@@ -50,13 +50,17 @@ public class BasketMapper {
     }
 
     public BasketDto entityToDto(Basket basket) {
-        return BasketDto.builder()
+        BasketDto.BasketDtoBuilder builder  = BasketDto.builder()
                 .id(basket.getId())
                 .userId(basket.getUser().getId())
                 .status(basket.getStatus())
-                .totalPrice(basket.getTotalPrice())
-                .basketProductDtoList(basketProductMapper.mapEntitesToDtos(basket.getBasketProductList()))
-                .build();
+                .totalPrice(basket.getTotalPrice());
+        if(basket.getBasketProductList() != null){
+            builder.basketProductList(basketProductMapper.mapEntitesToDtos(basket.getBasketProductList()));
+        }else {
+            builder.basketProductList(null); // veya isteğe bağlı bir değer atayabilirsiniz
+        }
+        return builder.build();
     }
 
 
@@ -65,7 +69,7 @@ public class BasketMapper {
                 .status(dto.getStatus())
                 .totalPrice(dto.getTotalPrice())
                 .user(userService.findUserById(dto.getUserId()))
-                .basketProductList(basketProductMapper.mapDtosToEntites(dto.getBasketProductDtoList()))
+                .basketProductList(basketProductMapper.mapDtosToEntites(dto.getBasketProductList()))
                 .build();
     }
 

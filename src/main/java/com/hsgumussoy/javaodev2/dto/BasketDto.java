@@ -14,7 +14,7 @@ public class BasketDto {
     private int status;
     private double totalPrice;
     private Long userId;
-    private List<BasketProductDto> basketProductDtoList;
+    private List<BasketProductDto> basketProductList;
 
 
 
