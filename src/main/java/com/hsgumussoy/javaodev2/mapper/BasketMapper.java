@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,7 +59,7 @@ public class BasketMapper {
         if(basket.getBasketProductList() != null){
             builder.basketProductList(basketProductMapper.mapEntitesToDtos(basket.getBasketProductList()));
         }else {
-            builder.basketProductList(null); // veya isteğe bağlı bir değer atayabilirsiniz
+            builder.basketProductList(Collections.emptyList()); // veya isteğe bağlı bir değer atayabilirsiniz
         }
         return builder.build();
     }
@@ -69,7 +70,8 @@ public class BasketMapper {
                 .status(dto.getStatus())
                 .totalPrice(dto.getTotalPrice())
                 .user(userService.findUserById(dto.getUserId()))
-                .basketProductList(basketProductMapper.mapDtosToEntites(dto.getBasketProductList()))
+                .basketProductList(dto.getBasketProductList() != null ?
+                        basketProductMapper.mapDtosToEntities(dto.getBasketProductList()) : Collections.emptyList())
                 .build();
     }
 

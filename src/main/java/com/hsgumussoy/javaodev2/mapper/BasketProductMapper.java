@@ -7,6 +7,7 @@ import com.hsgumussoy.javaodev2.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 @Component
@@ -16,7 +17,10 @@ public class BasketProductMapper {
     @Autowired
     private ProductServiceImpl productService;
 
-    public List<BasketProduct> mapDtosToEntites(List<BasketProductDto> basketProductDtoList) {
+    public List<BasketProduct> mapDtosToEntities(List<BasketProductDto> basketProductDtoList) {
+        if (basketProductDtoList == null) {
+            return Collections.emptyList();
+        }
         return basketProductDtoList.stream()
                 .map(this::dtoToEntity)
                 .collect(Collectors.toList());
