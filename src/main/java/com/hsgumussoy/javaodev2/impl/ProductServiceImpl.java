@@ -20,11 +20,11 @@ public class ProductServiceImpl implements ProductService {
     private ProductMapper productMapper;
 
     public ProductDto save(ProductDto dto) {
-        return productMapper.productToDto(repository.save(productMapper.dtoToEntity(dto)));
+        return productMapper.entityToDto(repository.save(productMapper.dtoToEntity(dto)));
     }
 
     public ProductDto get(String id) {
-        return productMapper.productToDto(repository.findById(Long.parseLong(id)).orElseThrow(() -> (new RecordNotFoundExceptions(5000, "Product not found"))));
+        return productMapper.entityToDto(repository.findById(Long.parseLong(id)).orElseThrow(() -> (new RecordNotFoundExceptions(5000, "Product not found"))));
     }
 
     public void delete(String id) {
