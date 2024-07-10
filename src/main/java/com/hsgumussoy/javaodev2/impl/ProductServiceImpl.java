@@ -55,6 +55,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    public Product findProductById(Long productId) {
+        if(productId == null){
+            throw  new IllegalArgumentException("The given id must not be null");
+        }
+        return repository.findById(productId).orElseThrow();
+    }
 }
 
 

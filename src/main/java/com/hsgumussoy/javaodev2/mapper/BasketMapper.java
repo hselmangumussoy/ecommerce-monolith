@@ -4,14 +4,24 @@ import com.hsgumussoy.javaodev2.dto.BasketDto;
 import com.hsgumussoy.javaodev2.dto.BasketProductDto;
 import com.hsgumussoy.javaodev2.entity.Basket;
 import com.hsgumussoy.javaodev2.entity.BasketProduct;
+import com.hsgumussoy.javaodev2.impl.BasketServiceImpl;
+import com.hsgumussoy.javaodev2.impl.ProductServiceImpl;
+import com.hsgumussoy.javaodev2.impl.UserServiceImpl;
 import com.hsgumussoy.javaodev2.request.BasketRequest;
 import com.hsgumussoy.javaodev2.response.BasketResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 @Component
 public class BasketMapper {
+    @Autowired
+    private UserServiceImpl userService;
+    @Autowired
+    private BasketServiceImpl basketService;
+    @Autowired
+    private ProductServiceImpl productService;
     public BasketDto requestToDto(BasketRequest request) {
         return BasketDto.builder()
                 .status(request.getCount())
@@ -56,4 +66,29 @@ public class BasketMapper {
     }
 
 
+    public Basket dtoToEntity(BasketDto dto) {
+        return Basket.builder()
+                .status(dto.getStatus())
+                .totalPrice(dto.getTotalPrice())
+                .user(userService.findUserById(dto.getUserId()))
+                .basketProductList(mapBasketProductDtosToBasketProducts(dto.getBasketProductDtoList()))
+                .build();
+    }
+
+
+    private List<BasketProduct> mapBasketProductDtosToBasketProducts(List<BasketProductDto> basketProductDtoList) {
+        return basketProductDtoList.stream()
+                .map(this::basketProductDtoToBasketProduct)
+                .collect(Collectors.toList());
+    }
+
+    private BasketProduct basketProductDtoToBasketProduct(BasketProductDto basketProductDto) {
+        return BasketProduct.builder()
+                .count(basketProductDto.getCount())
+                .id(basketProductDto.getId())
+                .totalAmount(basketProductDto.getTotalAmount())
+                .product(productService.findProductById(basketProductDto.getProductId()))
+                .basket(basketService.findBasketById(basketProductDto.getBasketId()))
+                .build();
+    }
 }

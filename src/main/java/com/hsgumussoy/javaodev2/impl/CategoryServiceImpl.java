@@ -56,15 +56,11 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDtoList;
     }
 
-
-
-
-    /* public List<UserDto> getAll() {
-         return repository.findAll();
-     }*/
-    public Category findById(Long id){
-        return repository.findById(id).orElseThrow(() ->(new RecordNotFoundExceptions(4000,"Category not found")));
-    }
+    public Category findCategoryById(Long categoryId){
+        if(categoryId == null){
+            throw  new IllegalArgumentException("The given id must not be null");
+        }
+        return repository.findById(categoryId).orElseThrow();    }
 
 
 

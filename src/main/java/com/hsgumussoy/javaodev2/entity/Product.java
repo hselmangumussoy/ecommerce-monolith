@@ -26,7 +26,7 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<BasketProduct> basketProductList;
 
 

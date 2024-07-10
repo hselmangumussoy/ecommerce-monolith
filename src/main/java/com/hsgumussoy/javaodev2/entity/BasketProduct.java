@@ -20,7 +20,7 @@ public class BasketProduct {
     private double totalAmount;
 
     @ManyToOne
-    @JoinColumn(name = "basket_id")//Bir varlık sınıfında, başka bir varlık sınıfına ait bir alanı (foreign key) tanımlamak için kullanılır.
+    @JoinColumn(name = "basket_id", referencedColumnName = "id")//Bir varlık sınıfında, başka bir varlık sınıfına ait bir alanı (foreign key) tanımlamak için kullanılır.
     private Basket basket;
 
     @ManyToOne

@@ -64,4 +64,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    public User findUserById(Long userId) {
+        if(userId == null){
+            throw  new IllegalArgumentException("The given id must not be null");
+        }
+        return repository.findById(userId).orElseThrow();
+    }
 }
