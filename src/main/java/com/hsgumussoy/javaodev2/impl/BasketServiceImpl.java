@@ -1,26 +1,19 @@
 package com.hsgumussoy.javaodev2.impl;
 
 import com.hsgumussoy.javaodev2.dto.BasketDto;
-import com.hsgumussoy.javaodev2.dto.BasketProductDto;
-import com.hsgumussoy.javaodev2.dto.UserDto;
 import com.hsgumussoy.javaodev2.entity.Basket;
 import com.hsgumussoy.javaodev2.entity.BasketProduct;
 import com.hsgumussoy.javaodev2.entity.User;
 import com.hsgumussoy.javaodev2.exception.RecordNotFoundExceptions;
 import com.hsgumussoy.javaodev2.mapper.BasketMapper;
 import com.hsgumussoy.javaodev2.repository.BasketRepository;
-import com.hsgumussoy.javaodev2.service.BasketProductService;
 import com.hsgumussoy.javaodev2.service.BasketService;
-import com.hsgumussoy.javaodev2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class BasketServiceImpl implements BasketService {
@@ -34,7 +27,7 @@ public class BasketServiceImpl implements BasketService {
     private UserServiceImpl userService;
 
     @Autowired
-    private BasketProductService basketProductService;
+    private BasketProductServiceImpl basketProductService;
 
     private static  int BASKET_STATUS_NONE = 0;
     private static int BASKET_STATUS_SALED = 1;
