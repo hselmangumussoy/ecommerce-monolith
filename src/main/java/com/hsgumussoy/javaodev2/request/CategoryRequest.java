@@ -11,9 +11,7 @@ import java.util.List;
 @Builder
 public class CategoryRequest {
     private String name;
-    //private List<ProductRequest> productList; neden yok
     private String descrpition;
-
 
 
 }
