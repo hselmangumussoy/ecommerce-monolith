@@ -6,6 +6,7 @@ import com.hsgumussoy.javaodev2.impl.CategoryServiceImpl;
 import com.hsgumussoy.javaodev2.request.ProductRequest;
 import com.hsgumussoy.javaodev2.response.ProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 @Component
 public class ProductMapper {
     @Autowired
+    @Lazy
     private CategoryServiceImpl categoryService;
     public ProductResponse dtoToResponse(ProductDto dto) {
         return ProductResponse.builder()

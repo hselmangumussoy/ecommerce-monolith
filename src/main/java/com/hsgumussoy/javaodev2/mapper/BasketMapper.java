@@ -10,6 +10,7 @@ import com.hsgumussoy.javaodev2.impl.UserServiceImpl;
 import com.hsgumussoy.javaodev2.request.BasketRequest;
 import com.hsgumussoy.javaodev2.response.BasketResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,8 +19,10 @@ import java.util.stream.Collectors;
 @Component
 public class BasketMapper {
     @Autowired
+    @Lazy
     private UserServiceImpl userService;
     @Autowired
+    @Lazy
     private BasketProductMapper basketProductMapper;
 
     public BasketDto requestToDto(BasketRequest request) {

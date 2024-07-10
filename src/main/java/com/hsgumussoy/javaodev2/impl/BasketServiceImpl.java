@@ -9,6 +9,7 @@ import com.hsgumussoy.javaodev2.mapper.BasketMapper;
 import com.hsgumussoy.javaodev2.repository.BasketRepository;
 import com.hsgumussoy.javaodev2.service.BasketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,10 +24,12 @@ public class BasketServiceImpl implements BasketService {
 
     @Autowired
     private BasketMapper basketMapper;
+
     @Autowired
     private UserServiceImpl userService;
 
     @Autowired
+    @Lazy
     private BasketProductServiceImpl basketProductService;
 
     private static  int BASKET_STATUS_NONE = 0;
