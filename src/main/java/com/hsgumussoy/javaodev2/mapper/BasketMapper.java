@@ -1,11 +1,7 @@
 package com.hsgumussoy.javaodev2.mapper;
 
 import com.hsgumussoy.javaodev2.dto.BasketDto;
-import com.hsgumussoy.javaodev2.dto.BasketProductDto;
 import com.hsgumussoy.javaodev2.entity.Basket;
-import com.hsgumussoy.javaodev2.entity.BasketProduct;
-import com.hsgumussoy.javaodev2.impl.BasketServiceImpl;
-import com.hsgumussoy.javaodev2.impl.ProductServiceImpl;
 import com.hsgumussoy.javaodev2.impl.UserServiceImpl;
 import com.hsgumussoy.javaodev2.request.BasketRequest;
 import com.hsgumussoy.javaodev2.response.BasketResponse;
