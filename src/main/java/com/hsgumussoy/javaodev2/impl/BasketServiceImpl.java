@@ -1,11 +1,13 @@
 package com.hsgumussoy.javaodev2.impl;
 
 import com.hsgumussoy.javaodev2.dto.BasketDto;
+import com.hsgumussoy.javaodev2.dto.BasketProductDto;
 import com.hsgumussoy.javaodev2.entity.Basket;
 import com.hsgumussoy.javaodev2.entity.BasketProduct;
 import com.hsgumussoy.javaodev2.entity.User;
 import com.hsgumussoy.javaodev2.exception.RecordNotFoundExceptions;
 import com.hsgumussoy.javaodev2.mapper.BasketMapper;
+import com.hsgumussoy.javaodev2.mapper.BasketProductMapper;
 import com.hsgumussoy.javaodev2.repository.BasketRepository;
 import com.hsgumussoy.javaodev2.service.BasketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,8 @@ public class BasketServiceImpl implements BasketService {
 
     @Autowired
     private BasketMapper basketMapper;
-
+    @Autowired
+    private BasketProductMapper basketProductMapper;
     @Autowired
     private UserServiceImpl userService;
 
@@ -36,30 +39,37 @@ public class BasketServiceImpl implements BasketService {
     private static int BASKET_STATUS_SALED = 1;
     @Override
     public BasketDto save(BasketDto dto) {
-        // Kullanıcıya ait açı bir sepet var mı kontrol et
+        // Kullanıcıya ait açık bir sepet var mı kontrol et
         User user = userService.findUserById(dto.getUserId());
         Optional<Basket> existingBasket = repository.findByUserIdAndStatus(user.getId(),BASKET_STATUS_NONE);
 
+        Basket basket;
         if(existingBasket.isPresent()){
-            //mevcut sepeti döndür.
-            return basketMapper.entityToDto(existingBasket.get());
+            basket = existingBasket.get();
         }else {
             // yeni sepet oluştur.
-            Basket newBasket = basketMapper.dtoToEntity(dto);
+            basket = basketMapper.dtoToEntity(dto);
+            basket.setStatus(BASKET_STATUS_NONE);
+            basket.setUser(user);
 
-            newBasket.setStatus(BASKET_STATUS_NONE);
-            newBasket.setUser(user);
+            repository.save(basket);
+        }
 
-            Basket savedBasket = repository.save(newBasket);
-
-            //sepete ürün ekle
-            for(BasketProduct bp : newBasket.getBasketProductList()){
-                bp.setBasket(savedBasket);
+        //sepete ürün ekle
+        for (BasketProductDto bpDto : dto.getBasketProductList()) {
+            try {
+                BasketProduct existingBasketProduct = basketProductService.findBasketProductByBasketIdAndProductId(basket.getId(), bpDto.getProductId());
+                existingBasketProduct.setCount(existingBasketProduct.getCount() + bpDto.getCount());
+                existingBasketProduct.setTotalAmount(existingBasketProduct.getTotalAmount() + bpDto.getTotalAmount());
+                basketProductService.save(existingBasketProduct);
+            } catch (IllegalArgumentException e) {
+                BasketProduct bp = basketProductMapper.dtoToEntity(bpDto);
+                bp.setBasket(basket);
                 basketProductService.save(bp);
             }
-
-            return basketMapper.entityToDto(savedBasket);
         }
+        return basketMapper.entityToDto(basket);
+
     }
 
     @Override
@@ -91,11 +101,15 @@ public class BasketServiceImpl implements BasketService {
         Basket updatedBasket = repository.save(existingBasket);
 
         //Sepetteki ürünleri güncelle
+        double totalPrice = 0;
         for(BasketProduct bp: updatedBasket.getBasketProductList()){
             bp.setBasket(updatedBasket);
             basketProductService.save(bp);
+            totalPrice += bp.getTotalAmount();
         }
-        return basketMapper.entityToDto(updatedBasket);
+        updatedBasket.setTotalPrice(totalPrice);
+
+        return basketMapper.entityToDto(repository.save(updatedBasket));
     }
 
 
