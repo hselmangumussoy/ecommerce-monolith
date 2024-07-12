@@ -29,6 +29,9 @@ public class BasketProductServiceImpl implements BasketProductService {
         basketService.findBasketById(basketProduct.getBasket().getId());
         productService.findProductById(basketProduct.getProduct().getId());
 
+        // Ürün miktarına göre toplam fiyatı hesaplayın
+        double totalPrice = calculateTotalAmount(basketProduct.getProduct().getPrice(), basketProduct.getCount());
+
         // BasketProduct varlığını kaydedin
         return repository.save(basketProduct);
     }
@@ -36,5 +39,8 @@ public class BasketProductServiceImpl implements BasketProductService {
     public BasketProduct findBasketProductByBasketIdAndProductId(Long basketId, Long productId) {
         return repository.findByBasketIdAndProductId(basketId, productId)
                 .orElseThrow(() -> new IllegalArgumentException("BasketProduct not found with given basketId and productId"));
+    }
+    private double calculateTotalAmount(double productPrice, int count) {
+        return productPrice * count;
     }
 }
