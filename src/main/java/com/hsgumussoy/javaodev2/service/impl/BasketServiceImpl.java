@@ -1,4 +1,4 @@
-package com.hsgumussoy.javaodev2.impl;
+package com.hsgumussoy.javaodev2.service.impl;
 
 import com.hsgumussoy.javaodev2.dto.BasketDto;
 import com.hsgumussoy.javaodev2.dto.BasketProductDto;
@@ -23,14 +23,13 @@ public class BasketServiceImpl implements BasketService {
 
     @Autowired
     private BasketRepository repository;
-
     @Autowired
     private BasketMapper basketMapper;
     @Autowired
+    @Lazy
     private BasketProductMapper basketProductMapper;
     @Autowired
     private UserServiceImpl userService;
-
     @Autowired
     @Lazy
     private BasketProductServiceImpl basketProductService;
@@ -56,17 +55,21 @@ public class BasketServiceImpl implements BasketService {
         }
 
         //sepete ürün ekle
-        for (BasketProductDto bpDto : dto.getBasketProductList()) {
-            try {
-                BasketProduct existingBasketProduct = basketProductService.findBasketProductByBasketIdAndProductId(basket.getId(), bpDto.getProductId());
-                existingBasketProduct.setCount(existingBasketProduct.getCount() + bpDto.getCount());
-                existingBasketProduct.setTotalAmount(existingBasketProduct.getTotalAmount() + bpDto.getTotalAmount());
-                basketProductService.save(existingBasketProduct);
-            } catch (IllegalArgumentException e) {
-                BasketProduct bp = basketProductMapper.dtoToEntity(bpDto);
-                bp.setBasket(basket);
-                basketProductService.save(bp);
+        if (dto.getBasketProductList() != null) {  // Null kontrolü
+            for (BasketProductDto bpDto : dto.getBasketProductList()) {
+                try {
+                    BasketProduct existingBasketProduct = basketProductService.findBasketProductByBasketIdAndProductId(basket.getId(), bpDto.getProductId());
+                    existingBasketProduct.setCount(existingBasketProduct.getCount() + bpDto.getCount());
+                    existingBasketProduct.setTotalAmount(existingBasketProduct.getTotalAmount() + bpDto.getTotalAmount());
+                    basketProductService.save(existingBasketProduct);
+                } catch (IllegalArgumentException e) {
+                    BasketProduct bp = basketProductMapper.dtoToEntity(bpDto);
+                    bp.setBasket(basket);
+                    basketProductService.save(bp);
+                }
             }
+        } else {
+            dto.setBasketProductList(new ArrayList<>());  // Null ise boş bir liste oluştur
         }
         return basketMapper.entityToDto(basket);
 
