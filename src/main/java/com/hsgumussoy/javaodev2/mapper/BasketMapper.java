@@ -2,9 +2,9 @@ package com.hsgumussoy.javaodev2.mapper;
 
 import com.hsgumussoy.javaodev2.dto.BasketDto;
 import com.hsgumussoy.javaodev2.entity.Basket;
+import com.hsgumussoy.javaodev2.service.impl.UserServiceImpl;
 import com.hsgumussoy.javaodev2.request.BasketRequest;
 import com.hsgumussoy.javaodev2.response.BasketResponse;
-import com.hsgumussoy.javaodev2.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -24,9 +24,9 @@ public class BasketMapper {
 
     public BasketDto requestToDto(BasketRequest request) {
         return BasketDto.builder()
-                .status(request.getCount())
-                .totalPrice(request.getTotalPrice())
                 .userId(request.getUserId())
+                .count(request.getCount())
+                .productId(request.getProductId())
                 .build();
     }
 
