@@ -7,14 +7,12 @@ import com.hsgumussoy.javaodev2.mapper.UserMapper;
 import com.hsgumussoy.javaodev2.repository.UserRepository;
 import com.hsgumussoy.javaodev2.entity.User;
 import com.hsgumussoy.javaodev2.service.UserService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
+
 
 @Service
 public class UserServiceImpl implements UserService {
