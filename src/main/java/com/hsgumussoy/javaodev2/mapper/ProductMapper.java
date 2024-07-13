@@ -2,7 +2,7 @@ package com.hsgumussoy.javaodev2.mapper;
 
 import com.hsgumussoy.javaodev2.dto.ProductDto;
 import com.hsgumussoy.javaodev2.entity.Product;
-import com.hsgumussoy.javaodev2.impl.CategoryServiceImpl;
+import com.hsgumussoy.javaodev2.service.impl.CategoryServiceImpl;
 import com.hsgumussoy.javaodev2.request.ProductRequest;
 import com.hsgumussoy.javaodev2.response.ProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;

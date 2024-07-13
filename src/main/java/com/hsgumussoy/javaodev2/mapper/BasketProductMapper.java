@@ -2,8 +2,8 @@ package com.hsgumussoy.javaodev2.mapper;
 
 import com.hsgumussoy.javaodev2.dto.BasketProductDto;
 import com.hsgumussoy.javaodev2.entity.BasketProduct;
-import com.hsgumussoy.javaodev2.impl.BasketServiceImpl;
-import com.hsgumussoy.javaodev2.impl.ProductServiceImpl;
+import com.hsgumussoy.javaodev2.service.impl.BasketServiceImpl;
+import com.hsgumussoy.javaodev2.service.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

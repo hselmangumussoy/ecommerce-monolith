@@ -1,4 +1,4 @@
-package com.hsgumussoy.javaodev2.impl;
+package com.hsgumussoy.javaodev2.service.impl;
 
 import com.hsgumussoy.javaodev2.dto.ProductDto;
 import com.hsgumussoy.javaodev2.entity.Product;
