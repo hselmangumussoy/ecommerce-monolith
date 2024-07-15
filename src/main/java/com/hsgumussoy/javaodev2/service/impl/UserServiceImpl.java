@@ -6,7 +6,6 @@ import com.hsgumussoy.javaodev2.mapper.UserMapper;
 import com.hsgumussoy.javaodev2.repository.UserRepository;
 import com.hsgumussoy.javaodev2.entity.User;
 import com.hsgumussoy.javaodev2.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,12 +13,16 @@ import java.util.List;
 
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
 
     private final UserMapper userMapper;
+
+    public UserServiceImpl(UserRepository repository, UserMapper userMapper) {
+        this.repository = repository;
+        this.userMapper = userMapper;
+    }
 
     @Override
     public UserDto save(UserDto dto) {

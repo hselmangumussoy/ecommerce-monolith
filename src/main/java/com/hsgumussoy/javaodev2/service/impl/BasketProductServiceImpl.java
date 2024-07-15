@@ -5,16 +5,20 @@ import com.hsgumussoy.javaodev2.entity.BasketProduct;
 import com.hsgumussoy.javaodev2.entity.Product;
 import com.hsgumussoy.javaodev2.repository.BasketProductRepository;
 import com.hsgumussoy.javaodev2.service.BasketProductService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class BasketProductServiceImpl implements BasketProductService {
 
     private final BasketProductRepository repository;
     private final BasketServiceImpl basketService;
     private final ProductServiceImpl productService;
+
+    public BasketProductServiceImpl(BasketProductRepository repository, BasketServiceImpl basketService, ProductServiceImpl productService) {
+        this.repository = repository;
+        this.basketService = basketService;
+        this.productService = productService;
+    }
 
     @Override
     public BasketProduct save(BasketProduct basketProduct) {
@@ -23,7 +27,7 @@ public class BasketProductServiceImpl implements BasketProductService {
             throw new IllegalArgumentException("Basket and Product must not be null");
         }
 
-        // İlgili Basket ve Product varlıklarını doğrulayın
+       /* // İlgili Basket ve Product varlıklarını doğrulayın
         Basket basket = basketService.findBasketById(basketProduct.getBasket().getId());
         basketProduct.getBasket().setId(basket.getId());
 
@@ -32,18 +36,13 @@ public class BasketProductServiceImpl implements BasketProductService {
 
         // Ürün miktarına göre toplam fiyatı hesaplayın
         double totalPrice = calculateTotalAmount(basketProduct.getProduct().getPrice(), basketProduct.getCount());
-        basketProduct.setTotalAmount(totalPrice);
+        basketProduct.setTotalAmount(totalPrice);*/
 
         // BasketProduct varlığını kaydedin
         return repository.save(basketProduct);
     }
 
-
-    public BasketProduct findBasketProductByBasketIdAndProductId(Long basketId, Long productId) {
-        return repository.findByBasketIdAndProductId(basketId, productId)
-                .orElseThrow(() -> new IllegalArgumentException("BasketProduct not found with given basketId and productId"));
-    }
-    private double calculateTotalAmount(double productPrice, int count) {
+    /*private double calculateTotalAmount(double productPrice, int count) {
         return productPrice * count;
-    }
+    }*/
 }

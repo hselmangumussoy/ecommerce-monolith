@@ -4,7 +4,6 @@ import com.hsgumussoy.javaodev2.mapper.UserMapper;
 import com.hsgumussoy.javaodev2.request.UserRequest;
 import com.hsgumussoy.javaodev2.response.UserResponse;
 import com.hsgumussoy.javaodev2.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,10 +11,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("users")
-@RequiredArgsConstructor
 public class UserController {
     private final UserService service;
     private final UserMapper userMapper;
+
+    public UserController(UserService service, UserMapper userMapper) {
+        this.service = service;
+        this.userMapper = userMapper;
+    }
 
     @PostMapping
     public UserResponse save(@RequestBody UserRequest request) {

@@ -6,19 +6,21 @@ import com.hsgumussoy.javaodev2.exception.RecordNotFoundExceptions;
 import com.hsgumussoy.javaodev2.mapper.CategoryMapper;
 import com.hsgumussoy.javaodev2.repository.CategoryRepository;
 import com.hsgumussoy.javaodev2.service.CategoryService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository repository;
     private final CategoryMapper categoryMapper;
 
+    public CategoryServiceImpl(CategoryRepository repository, CategoryMapper categoryMapper) {
+        this.repository = repository;
+        this.categoryMapper = categoryMapper;
+    }
 
     public CategoryDto save(CategoryDto dto) {
         return  categoryMapper.entityToDto(repository.save(categoryMapper.dtoToEntity(dto)));

@@ -5,7 +5,7 @@ spring:
   application:
     name: second-web
   datasource:
-    url: jdbc:mysql://localhost:3306/javaOdev2
+    url: jdbc:mysql://localhost:3306/ecommerce_project
     username: root
     password: hSelMan%231?!
     driver-class-name: com.mysql.cj.jdbc.Driver

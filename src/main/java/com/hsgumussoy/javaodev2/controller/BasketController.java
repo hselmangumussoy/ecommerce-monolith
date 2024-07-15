@@ -4,18 +4,21 @@ import com.hsgumussoy.javaodev2.mapper.BasketMapper;
 import com.hsgumussoy.javaodev2.request.BasketRequest;
 import com.hsgumussoy.javaodev2.response.BasketResponse;
 import com.hsgumussoy.javaodev2.service.BasketService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/baskets")
-@RequiredArgsConstructor
 public class BasketController {
 
     private final BasketService service;
     private final BasketMapper basketMapper;
+
+    public BasketController(BasketService service, BasketMapper basketMapper) {
+        this.service = service;
+        this.basketMapper = basketMapper;
+    }
 
     @PostMapping
     public BasketResponse save(@RequestBody BasketRequest request) {

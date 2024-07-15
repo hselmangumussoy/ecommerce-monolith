@@ -4,20 +4,22 @@ import com.hsgumussoy.javaodev2.dto.BasketProductDto;
 import com.hsgumussoy.javaodev2.entity.BasketProduct;
 import com.hsgumussoy.javaodev2.service.impl.BasketServiceImpl;
 import com.hsgumussoy.javaodev2.service.impl.ProductServiceImpl;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 @Component
-@RequiredArgsConstructor
 public class BasketProductMapper {
 
     private final BasketServiceImpl basketService;
 
     private final ProductServiceImpl productService;
+
+    public BasketProductMapper(BasketServiceImpl basketService, ProductServiceImpl productService) {
+        this.basketService = basketService;
+        this.productService = productService;
+    }
 
     public List<BasketProduct> mapDtosToEntities(List<BasketProductDto> basketProductDtoList) {
         if (basketProductDtoList == null) {

@@ -13,12 +13,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
-@RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService service;
 
     private final CategoryMapper categoryMapper;
+
+    public CategoryController(CategoryService service, CategoryMapper categoryMapper) {
+        this.service = service;
+        this.categoryMapper = categoryMapper;
+    }
 
     @PostMapping
     public CategoryResponse save(@RequestBody CategoryRequest request) {

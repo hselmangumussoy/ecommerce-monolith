@@ -6,6 +6,7 @@ import com.hsgumussoy.javaodev2.service.impl.UserServiceImpl;
 import com.hsgumussoy.javaodev2.request.BasketRequest;
 import com.hsgumussoy.javaodev2.response.BasketResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -13,12 +14,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@RequiredArgsConstructor
+
 public class BasketMapper {
-    private final UserServiceImpl userService;
+    private UserServiceImpl userService;
 
-    private final BasketProductMapper basketProductMapper;
+    private BasketProductMapper basketProductMapper;
 
+    @Autowired
+    public void setUserService(UserServiceImpl userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setBasketProductMapper(BasketProductMapper basketProductMapper) {
+        this.basketProductMapper = basketProductMapper;
+    }
     public BasketDto requestToDto(BasketRequest request) {
         return BasketDto.builder()
                 .userId(request.getUserId())

@@ -1,18 +1,15 @@
 package com.hsgumussoy.javaodev2.service.impl;
 
 import com.hsgumussoy.javaodev2.dto.BasketDto;
-import com.hsgumussoy.javaodev2.dto.BasketProductDto;
 import com.hsgumussoy.javaodev2.entity.Basket;
 import com.hsgumussoy.javaodev2.entity.BasketProduct;
 import com.hsgumussoy.javaodev2.entity.Product;
 import com.hsgumussoy.javaodev2.entity.User;
 import com.hsgumussoy.javaodev2.exception.RecordNotFoundExceptions;
 import com.hsgumussoy.javaodev2.mapper.BasketMapper;
-import com.hsgumussoy.javaodev2.mapper.BasketProductMapper;
 import com.hsgumussoy.javaodev2.repository.BasketProductRepository;
 import com.hsgumussoy.javaodev2.repository.BasketRepository;
 import com.hsgumussoy.javaodev2.service.BasketService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
@@ -22,7 +19,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class BasketServiceImpl implements BasketService {
 
     private final BasketRepository repository;
@@ -32,8 +28,17 @@ public class BasketServiceImpl implements BasketService {
     private final ProductServiceImpl productService;
     private final BasketProductServiceImpl basketProductService;
 
-    private static  int BASKET_STATUS_NONE = 0;
-    private static int BASKET_STATUS_SALED = 1;
+    public BasketServiceImpl(BasketRepository repository, BasketProductRepository basketProductRepository, BasketMapper basketMapper, UserServiceImpl userService, ProductServiceImpl productService, BasketProductServiceImpl basketProductService) {
+        this.repository = repository;
+        this.basketProductRepository = basketProductRepository;
+        this.basketMapper = basketMapper;
+        this.userService = userService;
+        this.productService = productService;
+        this.basketProductService = basketProductService;
+    }
+
+    private static final int BASKET_STATUS_NONE = 0;
+    private static final int BASKET_STATUS_SALED = 1;
     @Override
     public BasketDto save(BasketDto dto) {
         // Kullanıcıya ait açık bir sepet var mı kontrol et

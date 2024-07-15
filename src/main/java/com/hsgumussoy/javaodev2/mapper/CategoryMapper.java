@@ -4,7 +4,6 @@ import com.hsgumussoy.javaodev2.dto.CategoryDto;
 import com.hsgumussoy.javaodev2.entity.Category;
 import com.hsgumussoy.javaodev2.request.CategoryRequest;
 import com.hsgumussoy.javaodev2.response.CategoryResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,10 +11,14 @@ import java.util.stream.Collectors;
 
 
 @Component
-@RequiredArgsConstructor
+
 public class CategoryMapper {
 
     private final ProductMapper productMapper;
+
+    public CategoryMapper(ProductMapper productMapper) {
+        this.productMapper = productMapper;
+    }
 
     public CategoryResponse dtoToResponse(CategoryDto dto) {
         return CategoryResponse.builder()

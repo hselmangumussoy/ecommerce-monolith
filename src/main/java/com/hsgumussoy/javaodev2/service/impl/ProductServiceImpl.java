@@ -6,19 +6,23 @@ import com.hsgumussoy.javaodev2.exception.RecordNotFoundExceptions;
 import com.hsgumussoy.javaodev2.mapper.ProductMapper;
 import com.hsgumussoy.javaodev2.repository.ProductRepository;
 import com.hsgumussoy.javaodev2.service.ProductService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
 
     private final ProductMapper productMapper;
+
+    public ProductServiceImpl(ProductRepository repository, ProductMapper productMapper) {
+        this.repository = repository;
+        this.productMapper = productMapper;
+    }
 
     public ProductDto save(ProductDto dto) {
         return productMapper.entityToDto(repository.save(productMapper.dtoToEntity(dto)));

@@ -1,11 +1,9 @@
 package com.hsgumussoy.javaodev2.controller;
 
-import com.hsgumussoy.javaodev2.dto.ProductDto;
 import com.hsgumussoy.javaodev2.mapper.ProductMapper;
 import com.hsgumussoy.javaodev2.request.ProductRequest;
 import com.hsgumussoy.javaodev2.response.ProductResponse;
 import com.hsgumussoy.javaodev2.service.ProductService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,11 +11,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-@RequiredArgsConstructor
 public class ProductController {
     private final ProductService service;
 
     private final ProductMapper productMapper;
+
+    public ProductController(ProductService service, ProductMapper productMapper) {
+        this.service = service;
+        this.productMapper = productMapper;
+    }
 
     @PostMapping
     public ProductResponse save(@RequestBody ProductRequest request) {
