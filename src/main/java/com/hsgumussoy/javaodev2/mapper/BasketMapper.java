@@ -5,30 +5,21 @@ import com.hsgumussoy.javaodev2.entity.Basket;
 import com.hsgumussoy.javaodev2.service.impl.UserServiceImpl;
 import com.hsgumussoy.javaodev2.request.BasketRequest;
 import com.hsgumussoy.javaodev2.response.BasketResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 @Component
-
 public class BasketMapper {
+    @Autowired
     private UserServiceImpl userService;
-
+    @Autowired
+    @Lazy
     private BasketProductMapper basketProductMapper;
 
-    @Autowired
-    public void setUserService(UserServiceImpl userService) {
-        this.userService = userService;
-    }
-
-    @Autowired
-    public void setBasketProductMapper(BasketProductMapper basketProductMapper) {
-        this.basketProductMapper = basketProductMapper;
-    }
     public BasketDto requestToDto(BasketRequest request) {
         return BasketDto.builder()
                 .userId(request.getUserId())

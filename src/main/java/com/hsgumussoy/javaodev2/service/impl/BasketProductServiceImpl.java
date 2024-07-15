@@ -5,20 +5,13 @@ import com.hsgumussoy.javaodev2.entity.BasketProduct;
 import com.hsgumussoy.javaodev2.entity.Product;
 import com.hsgumussoy.javaodev2.repository.BasketProductRepository;
 import com.hsgumussoy.javaodev2.service.BasketProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BasketProductServiceImpl implements BasketProductService {
-
-    private final BasketProductRepository repository;
-    private final BasketServiceImpl basketService;
-    private final ProductServiceImpl productService;
-
-    public BasketProductServiceImpl(BasketProductRepository repository, BasketServiceImpl basketService, ProductServiceImpl productService) {
-        this.repository = repository;
-        this.basketService = basketService;
-        this.productService = productService;
-    }
+    @Autowired
+    private BasketProductRepository repository;
 
     @Override
     public BasketProduct save(BasketProduct basketProduct) {

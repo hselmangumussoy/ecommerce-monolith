@@ -4,6 +4,8 @@ import com.hsgumussoy.javaodev2.mapper.BasketMapper;
 import com.hsgumussoy.javaodev2.request.BasketRequest;
 import com.hsgumussoy.javaodev2.response.BasketResponse;
 import com.hsgumussoy.javaodev2.service.BasketService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,15 +13,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/baskets")
 public class BasketController {
-
-    private final BasketService service;
-    private final BasketMapper basketMapper;
-
-    public BasketController(BasketService service, BasketMapper basketMapper) {
-        this.service = service;
-        this.basketMapper = basketMapper;
-    }
-
+    @Autowired
+    private BasketService service;
+    @Autowired
+    @Lazy
+    private BasketMapper basketMapper;
     @PostMapping
     public BasketResponse save(@RequestBody BasketRequest request) {
         return basketMapper.dtoToResponse(service.save(basketMapper.requestToDto(request)));

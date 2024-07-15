@@ -6,6 +6,8 @@ import com.hsgumussoy.javaodev2.exception.RecordNotFoundExceptions;
 import com.hsgumussoy.javaodev2.mapper.ProductMapper;
 import com.hsgumussoy.javaodev2.repository.ProductRepository;
 import com.hsgumussoy.javaodev2.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,10 +16,11 @@ import java.util.List;
 @Service
 
 public class ProductServiceImpl implements ProductService {
-
-    private final ProductRepository repository;
-
-    private final ProductMapper productMapper;
+    @Autowired
+    private ProductRepository repository;
+    @Autowired
+    @Lazy
+    private ProductMapper productMapper;
 
     public ProductServiceImpl(ProductRepository repository, ProductMapper productMapper) {
         this.repository = repository;

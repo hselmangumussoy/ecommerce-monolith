@@ -6,6 +6,7 @@ import com.hsgumussoy.javaodev2.mapper.UserMapper;
 import com.hsgumussoy.javaodev2.repository.UserRepository;
 import com.hsgumussoy.javaodev2.entity.User;
 import com.hsgumussoy.javaodev2.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,15 +15,10 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-
-    private final UserRepository repository;
-
-    private final UserMapper userMapper;
-
-    public UserServiceImpl(UserRepository repository, UserMapper userMapper) {
-        this.repository = repository;
-        this.userMapper = userMapper;
-    }
+    @Autowired
+    private  UserRepository repository;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public UserDto save(UserDto dto) {

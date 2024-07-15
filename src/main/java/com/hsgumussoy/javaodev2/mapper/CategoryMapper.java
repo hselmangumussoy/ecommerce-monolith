@@ -4,6 +4,8 @@ import com.hsgumussoy.javaodev2.dto.CategoryDto;
 import com.hsgumussoy.javaodev2.entity.Category;
 import com.hsgumussoy.javaodev2.request.CategoryRequest;
 import com.hsgumussoy.javaodev2.response.CategoryResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,14 +13,11 @@ import java.util.stream.Collectors;
 
 
 @Component
-
 public class CategoryMapper {
+    @Autowired
+    @Lazy
+    private ProductMapper productMapper;
 
-    private final ProductMapper productMapper;
-
-    public CategoryMapper(ProductMapper productMapper) {
-        this.productMapper = productMapper;
-    }
 
     public CategoryResponse dtoToResponse(CategoryDto dto) {
         return CategoryResponse.builder()

@@ -10,6 +10,9 @@ import com.hsgumussoy.javaodev2.mapper.BasketMapper;
 import com.hsgumussoy.javaodev2.repository.BasketProductRepository;
 import com.hsgumussoy.javaodev2.repository.BasketRepository;
 import com.hsgumussoy.javaodev2.service.BasketService;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 
@@ -20,26 +23,25 @@ import java.util.Optional;
 
 @Service
 public class BasketServiceImpl implements BasketService {
+    @Autowired
+    private BasketRepository repository;
+    @Autowired
+    private BasketProductRepository basketProductRepository;
+    @Autowired
+    @Lazy
+    private BasketMapper basketMapper;
+    @Autowired
+    private UserServiceImpl userService;
+    @Autowired
+    private ProductServiceImpl productService;
+    @Autowired
+    private BasketProductServiceImpl basketProductService;
 
-    private final BasketRepository repository;
-    private final BasketProductRepository basketProductRepository;
-    private final BasketMapper basketMapper;
-    private final UserServiceImpl userService;
-    private final ProductServiceImpl productService;
-    private final BasketProductServiceImpl basketProductService;
-
-    public BasketServiceImpl(BasketRepository repository, BasketProductRepository basketProductRepository, BasketMapper basketMapper, UserServiceImpl userService, ProductServiceImpl productService, BasketProductServiceImpl basketProductService) {
-        this.repository = repository;
-        this.basketProductRepository = basketProductRepository;
-        this.basketMapper = basketMapper;
-        this.userService = userService;
-        this.productService = productService;
-        this.basketProductService = basketProductService;
-    }
 
     private static final int BASKET_STATUS_NONE = 0;
     private static final int BASKET_STATUS_SALED = 1;
     @Override
+    @Transactional
     public BasketDto save(BasketDto dto) {
         // Kullanıcıya ait açık bir sepet var mı kontrol et
         User existingUser = userService.findUserById(dto.getUserId());
