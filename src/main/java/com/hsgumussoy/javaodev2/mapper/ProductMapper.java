@@ -5,6 +5,7 @@ import com.hsgumussoy.javaodev2.entity.Product;
 import com.hsgumussoy.javaodev2.service.impl.CategoryServiceImpl;
 import com.hsgumussoy.javaodev2.request.ProductRequest;
 import com.hsgumussoy.javaodev2.response.ProductResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -12,10 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class ProductMapper {
-    @Autowired
-    @Lazy
-    private CategoryServiceImpl categoryService;
+    private final CategoryServiceImpl categoryService;
     public ProductResponse dtoToResponse(ProductDto dto) {
         return ProductResponse.builder()
                 .id(dto.getId())

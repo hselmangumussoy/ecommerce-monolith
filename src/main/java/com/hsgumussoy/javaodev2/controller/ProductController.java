@@ -5,7 +5,7 @@ import com.hsgumussoy.javaodev2.mapper.ProductMapper;
 import com.hsgumussoy.javaodev2.request.ProductRequest;
 import com.hsgumussoy.javaodev2.response.ProductResponse;
 import com.hsgumussoy.javaodev2.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,11 +13,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
-    @Autowired
-    private ProductService service;
-    @Autowired
-    private ProductMapper productMapper;
+    private final ProductService service;
+
+    private final ProductMapper productMapper;
 
     @PostMapping
     public ProductResponse save(@RequestBody ProductRequest request) {

@@ -4,7 +4,7 @@ import com.hsgumussoy.javaodev2.mapper.UserMapper;
 import com.hsgumussoy.javaodev2.request.UserRequest;
 import com.hsgumussoy.javaodev2.response.UserResponse;
 import com.hsgumussoy.javaodev2.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,11 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("users")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService service;
-    @Autowired
-    private UserMapper userMapper;
+    private final UserService service;
+    private final UserMapper userMapper;
 
     @PostMapping
     public UserResponse save(@RequestBody UserRequest request) {

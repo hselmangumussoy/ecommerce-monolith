@@ -12,10 +12,9 @@ import com.hsgumussoy.javaodev2.mapper.BasketProductMapper;
 import com.hsgumussoy.javaodev2.repository.BasketProductRepository;
 import com.hsgumussoy.javaodev2.repository.BasketRepository;
 import com.hsgumussoy.javaodev2.service.BasketService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,25 +22,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class BasketServiceImpl implements BasketService {
 
-    @Autowired
-    private BasketRepository repository;
-    @Autowired
-    private BasketProductRepository basketProductRepository;
-    @Autowired
-    private BasketMapper basketMapper;
-    @Autowired
-    @Lazy
-    private BasketProductMapper basketProductMapper;
-    @Autowired
-    private UserServiceImpl userService;
-    @Autowired
-    private ProductServiceImpl productService;
-    @Autowired
-    @Lazy
-    private BasketProductServiceImpl basketProductService;
+    private final BasketRepository repository;
+    private final BasketProductRepository basketProductRepository;
+    private final BasketMapper basketMapper;
+    private final UserServiceImpl userService;
+    private final ProductServiceImpl productService;
+    private final BasketProductServiceImpl basketProductService;
 
     private static  int BASKET_STATUS_NONE = 0;
     private static int BASKET_STATUS_SALED = 1;
@@ -62,38 +51,6 @@ public class BasketServiceImpl implements BasketService {
         }else{
             return basketMapper.entityToDto(addToBasket(dto, existingProduct,existingUser));
         }
-        /*Basket basket;
-        if (existingBasket.isPresent()) {
-            basket = existingBasket.get();
-        } else {
-            // yeni sepet oluştur.
-            basket = basketMapper.dtoToEntity(dto);
-            basket.setStatus(BASKET_STATUS_NONE);
-            basket.setUser(user);
-
-            repository.save(basket);
-        }
-
-        // Sepete ürün ekle
-        if (dto.getBasketProductList() != null && !dto.getBasketProductList().isEmpty()) {  // Null kontrolü
-            for (BasketProductDto bpDto : dto.getBasketProductList()) {
-                BasketProduct existingBasketProduct = basketProductService.findBasketProductByBasketIdAndProductId(basket.getId(), bpDto.getProductId());
-                if (existingBasketProduct != null){
-                    // Eğer ürün zaten sepette varsa, miktarı artır
-                    existingBasketProduct.setCount(existingBasketProduct.getCount() + bpDto.getCount());
-                    existingBasketProduct.setTotalAmount(existingBasketProduct.getTotalAmount() + bpDto.getTotalAmount());
-                    basketProductService.save(existingBasketProduct);
-                } else {
-                    // Yeni ürün ekleyin
-                    BasketProduct bp = basketProductMapper.dtoToEntity(bpDto);
-                    bp.setProduct(productService.findProductById(bpDto.getProductId()));
-                    basketProductService.save(bp);
-                }
-            }
-        } else {
-            dto.setBasketProductList(new ArrayList<>());  // Null ise boş bir liste oluştur
-        }*/
-
     }
 
     private Basket addToBasket(BasketDto dto, Product existingProduct,User existingUser) {

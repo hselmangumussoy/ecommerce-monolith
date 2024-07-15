@@ -1,13 +1,12 @@
 package com.hsgumussoy.javaodev2.service.impl;
 
 import com.hsgumussoy.javaodev2.dto.UserDto;
-import com.hsgumussoy.javaodev2.entity.Category;
 import com.hsgumussoy.javaodev2.exception.RecordNotFoundExceptions;
 import com.hsgumussoy.javaodev2.mapper.UserMapper;
 import com.hsgumussoy.javaodev2.repository.UserRepository;
 import com.hsgumussoy.javaodev2.entity.User;
 import com.hsgumussoy.javaodev2.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,11 +14,12 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository repository;
-    @Autowired
-    private UserMapper userMapper;
+
+    private final UserRepository repository;
+
+    private final UserMapper userMapper;
 
     @Override
     public UserDto save(UserDto dto) {

@@ -5,7 +5,7 @@ import com.hsgumussoy.javaodev2.mapper.CategoryMapper;
 import com.hsgumussoy.javaodev2.request.CategoryRequest;
 import com.hsgumussoy.javaodev2.response.CategoryResponse;
 import com.hsgumussoy.javaodev2.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,11 +13,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
+@RequiredArgsConstructor
 public class CategoryController {
-    @Autowired
-    private CategoryService service;
-    @Autowired
-    private CategoryMapper categoryMapper;
+
+    private final CategoryService service;
+
+    private final CategoryMapper categoryMapper;
 
     @PostMapping
     public CategoryResponse save(@RequestBody CategoryRequest request) {
