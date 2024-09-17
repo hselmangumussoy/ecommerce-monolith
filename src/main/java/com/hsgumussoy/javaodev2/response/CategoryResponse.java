@@ -15,6 +15,4 @@ public class CategoryResponse {
     private String name;
     private String descrpition;
     private List<ProductDto> productList;
-
-
 }

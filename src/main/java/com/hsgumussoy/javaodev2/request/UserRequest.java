@@ -16,6 +16,4 @@ public class UserRequest {
     private String birthPlace;
     private Date birthDate;
     private String telNo;
-
-
 }

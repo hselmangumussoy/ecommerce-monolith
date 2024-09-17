@@ -18,6 +18,4 @@ public class UserResponse extends BaseResponse {
     private String birthPlace;
     private Date birthDate;
     private String telNo;
-
-
 }

@@ -17,5 +17,4 @@ public class BasketResponse  {
     private double totalPrice;
     private Long userId;
     private List<BasketProductDto>basketProductList;
-
 }
